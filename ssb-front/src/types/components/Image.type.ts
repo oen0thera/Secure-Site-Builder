@@ -1,6 +1,7 @@
 export type ImageProps = {
   size: ImageSize;
   src: ImageSrc;
+  type:ImageType;
 };
 export enum ImageSize {
   SMALL = "sm",
@@ -8,4 +9,13 @@ export enum ImageSize {
 }
 export enum ImageSrc {
   LOGO = "logo192.png",
+  Banner1="banner_1.png",
+  Banner2="banner_2.png",
+  Banner3="banner_3.png"
+}
+
+export enum ImageType {
+  LOGO = 'logo',
+  BANNER = 'banner',
+  TEMPLATE = 'template'
 }

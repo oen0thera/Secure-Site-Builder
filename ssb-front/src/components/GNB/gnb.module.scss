@@ -2,7 +2,6 @@
   height: 5em;
   display: flex;
   align-items: center;
-  box-shadow: 0 0 4px 0;
   background-color: #202124;
   color: azure;
   font-weight: 500;
@@ -14,6 +13,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  li{
+    cursor:pointer;
+  }
 }
 .nav_bar {
   display: flex;
@@ -24,6 +27,7 @@
 .login_bar {
   display: flex;
   flex-direction: row;
+  align-items: center;
   list-style-type: none;
   gap: 1em;
 }
