@@ -1,6 +1,6 @@
 export type ImageProps = {
   size: ImageSize;
-  src: ImageSrc;
+  src?: ImageSrc;
   type:ImageType;
 };
 export enum ImageSize {
