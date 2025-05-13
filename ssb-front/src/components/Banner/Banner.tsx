@@ -2,27 +2,51 @@ import { BannerList } from '@/types/components/Banner.type';
 import styles from './banner.module.scss'
 import Image from '../Image/Image';
 import { ImageProps, ImageSize, ImageSrc, ImageType } from '@/types/components/Image.type';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 export default function Banner(){
+    const [onMouse,setOnMouse] = useState(false);
     const [bannerChange,setBannerChange] = useState(false);
     const [bannerList,setBannerList] = useState<BannerList>([])
+    let intervalRef = useRef<number|undefined>(undefined);
     //const BannerList:BannerList = [<Image size={ImageSize.LARGE} src={ImageSrc.Banner1} type={ImageType.BANNER}/>,<Image size={ImageSize.LARGE} src={ImageSrc.Banner2} type={ImageType.BANNER}/>,<Image size={ImageSize.LARGE} src={ImageSrc.Banner3} type={ImageType.BANNER}/>];
+    
     useEffect(()=>{
+        const mouseEventHandler = (e:Event) => {
+           if(e.type==='pointerdown'){
+            setOnMouse(true);
+           }
+           else if(e.type==='pointerup'){
+            setOnMouse(false);
+           }
+           
+        }
+        window.addEventListener('pointerdown',mouseEventHandler);
+        window.addEventListener('pointerup',mouseEventHandler);
         setBannerList([<Image size={ImageSize.LARGE} type={ImageType.BANNER}/>,<Image size={ImageSize.LARGE} type={ImageType.TEMPLATE}/>,<Image size={ImageSize.LARGE} type={ImageType.LOGO}/>]);   
-        setInterval(() => {
-            setBannerChange(true);
-        }, 3000);
+        
     },[])
     useEffect(()=>{
+        if(onMouse){
+            clearInterval(intervalRef.current);
+        }
         
-    setBannerChange(false);},[bannerList])
+    },[onMouse])
     useEffect(()=>{
+        if(!onMouse){
+            intervalRef.current = window.setInterval(() => {
+                setBannerChange(true);
+            }, 3000);
+            setBannerChange(false);
+        return ()=>clearInterval(intervalRef.current);
+        }
         
+        
+    },[bannerList,onMouse])
+    useEffect(()=>{
         if(bannerChange){
             const firstBanner:React.ReactElement<ImageProps> = bannerList.at(0) as React.ReactElement<ImageProps>;
             setBannerList([bannerList.slice(1,bannerList.length),firstBanner].flat()) ;
-            
         }
         
     },[bannerChange])
