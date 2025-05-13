@@ -23,6 +23,7 @@ export default function Banner(){
         }
         window.addEventListener('pointerdown',mouseEventHandler);
         window.addEventListener('pointerup',mouseEventHandler);
+        window.addEventListener('scroll',mouseEventHandler);
         setBannerList([<Image size={ImageSize.LARGE} type={ImageType.BANNER}/>,<Image size={ImageSize.LARGE} type={ImageType.TEMPLATE}/>,<Image size={ImageSize.LARGE} type={ImageType.LOGO}/>]);   
         
     },[])
@@ -52,9 +53,9 @@ export default function Banner(){
     },[bannerChange])
      const renderBanner= () => {
         if(!bannerChange)
-            return bannerList.map((BannerItem,index)=>{return <span key={index} className={`${styles.banner_item} ${styles.slide_in}`}>{BannerItem}</span>})
+            return bannerList.map((BannerItem,index)=>{return <span key={`${index}-${bannerChange}`} className={`${styles.banner_item} ${styles.slide_in}`}>{BannerItem}</span>})
         else
-            return bannerList.map((BannerItem,index)=>{return <span key={index} className={`${styles.banner_item} ${styles.slide_out}`}>{BannerItem}</span>})
+            return bannerList.map((BannerItem,index)=>{return <span key={`${index}-${bannerChange}`} className={`${styles.banner_item} ${styles.slide_out}`}>{BannerItem}</span>})
      }
     
     
