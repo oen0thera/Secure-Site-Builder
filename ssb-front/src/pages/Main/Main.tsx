@@ -5,7 +5,6 @@ import styles from './main.module.scss';
 export default function Main() {
   return (
     <div className={styles.main}>
-      <GNB />
       <Banner/>
       <h2>지금 인기있는 템플릿</h2>
       <div></div>
