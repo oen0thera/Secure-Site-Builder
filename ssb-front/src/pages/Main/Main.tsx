@@ -1,6 +1,7 @@
 import Banner from "@/components/Banner/Banner";
 import GNB from "@/components/GNB/GNB";
 import styles from './main.module.scss';
+import Templates from "@/components/Templates/templates";
 
 export default function Main() {
   return (
@@ -8,7 +9,7 @@ export default function Main() {
       <GNB />
       <Banner/>
       <h2>지금 인기있는 템플릿</h2>
-      <div></div>
+      <div><Templates /></div>
       <h2>지금 인기있는 템플릿</h2>
       <div></div>
       <h2>지금 인기있는 템플릿</h2>
