@@ -9,13 +9,13 @@ export default function GNB() {
       <Image size={ImageSize.SMALL} src={ImageSrc.LOGO} type={ImageType.LOGO}/>
       <div className={styles.gnb_bar}>
         <ul className={styles.nav_bar}>
-          <li>소개</li>
+          <li><a href={'/intro'}>소개</a></li>
           <li>템플릿</li>
           <li>요금</li>
           <li>고객지원</li>
         </ul>
         <ul className={styles.login_bar}>
-          <li>로그인</li>
+          <li><a href={'/login'}>로그인</a></li>
           <li>회원가입</li>
           <li>
             <Button size={ButtonSize.SMALL} content={"무료로 시작하기"}/>

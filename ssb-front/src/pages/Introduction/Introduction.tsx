@@ -35,6 +35,8 @@ export default function Introduction() {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         <RotateBox />
+        <gridHelper args={[10, 10]} />
+        <axesHelper args={[8]} />
       </Canvas>
     </div>
   );
