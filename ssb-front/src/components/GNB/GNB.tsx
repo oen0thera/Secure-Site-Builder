@@ -6,7 +6,8 @@ import { ButtonSize } from "@/types/components/Button.type";
 export default function GNB() {
   return (
     <div className={styles.gnb}>
-      <Image size={ImageSize.SMALL} src={ImageSrc.LOGO} type={ImageType.LOGO}/>
+      <a href={'/'}><Image size={ImageSize.SMALL} src={ImageSrc.LOGO} type={ImageType.LOGO} /></a>
+      
       <div className={styles.gnb_bar}>
         <ul className={styles.nav_bar}>
           <li>소개</li>
