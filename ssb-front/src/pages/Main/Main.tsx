@@ -1,6 +1,7 @@
 import Banner from "@/components/Banner/Banner";
 import GNB from "@/components/GNB/GNB";
 import styles from './main.module.scss';
+import Templates from "@/components/Templates/templates";
 
 export default function Main() {
   return (
@@ -13,6 +14,7 @@ export default function Main() {
       <div><Templates /></div>
       <h2>광고/홍보</h2>
       <div><Templates /></div>
+
 
     </div>
   );
