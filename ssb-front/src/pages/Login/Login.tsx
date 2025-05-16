@@ -16,12 +16,25 @@ export default function Login(){
                             <h2>로그인</h2>
                             <section className={styles.input}>
                                 <input placeholder={'ID'}></input>
-                                <input placeholder={'Password'}></input>
+
+                                <input placeholder={'Password'} type={'password'}></input>
+                                <Button size={ButtonSize.LARGE} content={"로그인"}/>
                             </section>
+                            <hr/>
+
                             <section className={styles.social_logins}>
                                 <Button size={ButtonSize.LARGE} content={"구글 로그인"} type={ButtonType.GOOGLE}/>
                                 <Button size={ButtonSize.LARGE} content={"카카오 로그인"} type={ButtonType.KAKAO}/>
                                 <Button size={ButtonSize.LARGE} content={"네이버 로그인"} type={ButtonType.NAVER}/>
+
+                            </section>
+                            <section className={styles.help}>
+                                <a>ID 찾기</a>
+                                |
+                                <a>비밀번호 찾기</a>
+                                |
+                                <a>회원가입</a>    
+
                             </section>    
                         </div>
                         <div className={styles.container_shadow}></div>

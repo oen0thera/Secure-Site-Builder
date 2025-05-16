@@ -7,6 +7,13 @@
     background-color: #3b3b3f;
     padding-top: 8em;
     //background-color: white;
+
+    hr{
+        width:90%;
+        margin:0;
+        border-color:0px #3b3b3f
+    }
+
     
 }
 .login_title{
@@ -49,10 +56,11 @@ padding:10px 6px;
     border-radius: 20px;
     display:flex;
     flex-direction: column;
-    gap:0.5em;
     font-size:20px;
     color: black;
     input{
+        width:300px;
+
         text-indent: 10px;
     }
 }
@@ -60,9 +68,16 @@ padding:10px 6px;
     display:flex;
     flex-direction: column;
     gap:10px;
+
+    width:300px;
+    justify-content: center;
+    margin:20px;
     input{
         border-radius:5px;
         font-size:0.75em;
+        width:100%;
+        height:50px;
+
     }
 }
 .social_logins{
@@ -70,4 +85,13 @@ padding:10px 6px;
     flex-direction: column;
     gap: 10px;
     margin:20px;
+
+}
+.help{
+    display:flex;
+    flex-direction: row;
+    gap:10px;
+    font-size:0.7em;
+    margin:20px;
+
 }
