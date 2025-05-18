@@ -13,7 +13,7 @@ function Box() {
   );
 }
 
-function RotateBox({ args }: BoxArgs) {
+function RotateBox({ position, startPoint, resetPoint }: BoxArgs) {
   const scroll = useScroll();
   const meshRef = useRef<Three.Mesh>(null!);
 
@@ -24,20 +24,32 @@ function RotateBox({ args }: BoxArgs) {
         meshRef.current.rotation.x = scroll.offset;
         meshRef.current.rotation.y = scroll.offset;
       } else {
-        meshRef.current.position.x += 0.01;
+        console.log(
+          meshRef.current.position.x,
+          resetPoint,
+          meshRef.current.position.x > resetPoint
+        );
+        if (meshRef.current.position.x > resetPoint) {
+          meshRef.current.position.x = startPoint;
+        }
+        meshRef.current.position.x += 0.1;
       }
     }
   });
 
   return (
-    <mesh ref={meshRef} position={[args[0], args[1], args[2]]}>
+    <mesh ref={meshRef} position={[position[0], position[1], position[2]]}>
       <boxGeometry args={[10, 50, 0.1]} />
       <meshStandardMaterial color="white" />
     </mesh>
   );
 }
 
-type BoxArgs = { args: Array<number> };
+type BoxArgs = {
+  position: Array<number>;
+  resetPoint: number;
+  startPoint: number;
+};
 
 export default function Introduction() {
   return (
@@ -46,11 +58,15 @@ export default function Introduction() {
         <ScrollControls>
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
-          <RotateBox args={[-30, 0, 0]} />
-          <RotateBox args={[-15, 0, 0]} />
-          <RotateBox args={[0, 0, 0]} />
-          <RotateBox args={[15, 0, 0]} />
-          <RotateBox args={[30, 0, 0]} />
+          <RotateBox position={[-60, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[-45, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[-30, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[-15, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[0, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[15, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[30, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[45, 0, 0]} startPoint={-60} resetPoint={60} />
+          <RotateBox position={[60, 0, 0]} startPoint={-60} resetPoint={60} />
           <gridHelper args={[10, 10]} />
           <axesHelper args={[8]} />
         </ScrollControls>
@@ -58,7 +74,7 @@ export default function Introduction() {
       <Canvas>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
-        <RotateBox args={[10, 10, 0.1]} />
+
         <gridHelper args={[10, 10]} />
         <axesHelper args={[8]} />
       </Canvas>
