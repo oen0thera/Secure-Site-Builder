@@ -13,14 +13,13 @@ import { WorkProps } from "@/types/components/pages/introduction/Content/Work.ty
 
 
 
-function LeftContent({ position }: BoxArgs) {
+function LeftContent({ position, page }: BoxArgs) {
   const meshRef = useRef<Three.Mesh>(null!);
   const materialRef = useRef<Three.Material>(null!);
   const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
   const textRef = useRef<Three.Mesh>(null!);
   const subTextRef = useRef<Three.Mesh>(null!);
   const scroll = useScroll();
-  console.log(position)
   
   useFrame(() => {
     materialRef.current.transparent = true;
@@ -35,24 +34,35 @@ function LeftContent({ position }: BoxArgs) {
         textRef.current.visible = true;
         
         if(materialRef.current.opacity<1) materialRef.current.opacity+=0.01;
-        textRef.current.position.z = position[2]*1.5 - (scroll.offset*scroll.pages)*8;
-        subTextRef.current.position.z = position[2]*1.5 - (scroll.offset*scroll.pages)*8;
+        const radius = 8;
+        const baseX = position[0];
+        const baseZ = position[2];
+
+        const angle = -scroll.offset * Math.PI;
+
+        meshRef.current.position.x = baseX*2 - Math.cos(angle) * radius;
+        meshRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5;
+        textRef.current.position.x = baseX*2 - Math.cos(angle) * radius -20;
         
-        //meshRef.current.position.x = position[0] - scroll.offset*scroll.pages*(-10);
-        meshRef.current.position.z = position[2] - (scroll.offset*scroll.pages)*8;
-        console.log(meshRef.current.position.z)
-        //subTextRef.current.position.z = position[2] - (scroll.offset*scroll.pages)*35
-        console.log(scroll.offset*scroll.pages)
+        textRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5;
+        subTextRef.current.position.x = baseX*2 - Math.cos(angle) * radius -20;
         
-        if(scroll.offset*scroll.pages>0 &&textMat.opacity<1){
-          textMat.opacity+=0.05;
-          subTextMat.opacity+=0.05;
-        }
-        else{
-          textMat.opacity-=0.05;
-          subTextMat.opacity-=0.05;
-        }
-    }
+        subTextRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5;
+        
+    
+        const stageOffset = scroll.offset * 4; // 페이지 4단계 정규화
+        const fadeRange = 0.9; // 얼마나 일찍/늦게 보이게 할지
+        const fadeSpeed = 0.1;
+
+        const distance = Math.abs(stageOffset - page);
+        const shouldShow = distance < fadeRange;
+
+        const targetOpacity = shouldShow ? 1 : 0;
+
+        textMat.opacity += (targetOpacity - textMat.opacity) * fadeSpeed;
+        subTextMat.opacity += (targetOpacity - subTextMat.opacity) * fadeSpeed;
+       
+    } 
   });
   return (
     <>
@@ -61,10 +71,10 @@ function LeftContent({ position }: BoxArgs) {
       <meshStandardMaterial ref={materialRef} map={texture} color="white" opacity={0}/>
       
     </mesh>
-    <Text ref={textRef} fontSize={5} position={[-30,10,20]} rotation={[0,8.9,0]}   material-opacity={0} material-depthWrite={true}>
+    <Text ref={textRef} fontSize={5} position={[-10,10,20]} rotation={[0,8.9,0]}   material-opacity={0} material-depthWrite={true}>
       Why SSB?
     </Text>
-    <Text ref={subTextRef} fontSize={3} position={[-30,1,20]} rotation={[0,8.9,0]}  material-opacity={0} material-depthWrite={true}>
+    <Text ref={subTextRef} fontSize={3} position={[-10,1,20]} rotation={[0,8.9,0]}  material-opacity={0} material-depthWrite={true}>
       {`We know what we do\nAs you do what you want`}
     </Text>
     </>
@@ -78,7 +88,6 @@ function RightContent({ position }: BoxArgs) {
   const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
   
   const scroll = useScroll();
-  console.log(position)
 
   useFrame(() => {
     materialRef.current.transparent = true;
@@ -87,7 +96,7 @@ function RightContent({ position }: BoxArgs) {
         meshRef.current.visible = true;
         
         if(materialRef.current.opacity<1) materialRef.current.opacity+=0.01;
-        meshRef.current.position.z = position[2] - (scroll.offset*scroll.pages)*0.1
+        meshRef.current.position.z = position[2] - (scroll.offset*scroll.pages)*8;
         
         
         
@@ -107,7 +116,7 @@ function RightContent({ position }: BoxArgs) {
 
 type BoxArgs = {
   position: Array<number>;
-  
+  page: number;
 };
 
 export default function Work({scroll,nextStage}:WorkProps) {
@@ -128,7 +137,7 @@ export default function Work({scroll,nextStage}:WorkProps) {
       
       <section className={styles.canvas}>
       <Canvas camera={{ position: [0, 0, -10] }}>
-        <ScrollControls pages={10}>
+        <ScrollControls pages={30}>
             
             <Scroll html>
                 <div style={{ height: '300vh' }}></div>
@@ -136,8 +145,11 @@ export default function Work({scroll,nextStage}:WorkProps) {
             
           <ambientLight intensity={2.5} />
           <pointLight position={[10, 10, 10]} />
-          <LeftContent position={[10, 0, 20]} />
-          <RightContent position={[-10, 0, 40]} />
+          <LeftContent position={[10, 0, 20]} page={1}/>
+          <LeftContent position={[10, 0, 60]} page={2}/>
+          <LeftContent position={[10, 0, 100]} page={3}/>
+          <LeftContent position={[10, 0, 140]} page={4}/>
+          
           
           <gridHelper args={[10, 10]} />
           <axesHelper args={[8]} />
