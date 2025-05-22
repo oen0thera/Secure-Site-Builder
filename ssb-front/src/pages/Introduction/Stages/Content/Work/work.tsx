@@ -1,11 +1,14 @@
 import * as Three from "three";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader,useThree } from "@react-three/fiber";
 import { CubicBezierCurve3,Vector3 } from "three";
-import { OrbitControls, Scroll, ScrollControls, Text, useScroll } from "@react-three/drei";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { OrbitControls, Scroll, ScrollControls, ScrollControlsProps, ScrollControlsState, Text, useScroll } from "@react-three/drei";
+import { RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import styles from './work.module.scss'
 import { WorkProps } from "@/types/components/pages/introduction/Content/Work.type";
+import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
+import Icon from "@/components/Icon/Icon";
+import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 
 
 
@@ -21,12 +24,15 @@ function LeftContent({ position, page }: BoxArgs) {
   const subTextRef = useRef<Three.Mesh>(null!);
   const scroll = useScroll();
   
-  useFrame(() => {
+  useFrame((state) => {
     materialRef.current.transparent = true;
     const textMat = textRef.current.material as Three.Material;
     const subTextMat = subTextRef.current.material as Three.Material;
     textMat.transparent=true;
-    
+    const camera = new Vector3(0,0,-10)
+    const cameraPos = new Vector3(-state.pointer.x,state.pointer.y,0)
+    const pointerPos = camera.lerp(cameraPos,0.01);
+    state.camera.lookAt(pointerPos);
     
     if (meshRef.current) {
         let scrollPosition=0;
@@ -114,12 +120,41 @@ function RightContent({ position }: BoxArgs) {
   );
 }
 
+const ScrollDetect=({onScroll}:ScrollDetectProps)=>{
+  const scroll = useScroll();
+  onScroll(scroll.offset);
+  return null;
+}
+
 type BoxArgs = {
   position: Array<number>;
   page: number;
 };
+type ScrollDetectProps={
+  onScroll:(scroll:number)=>void;
+}
 
 export default function Work({scroll,nextStage}:WorkProps) {
+    const [hasMounted, setHasMounted] = useState(false);
+  const [scrollState,setScrollState] = useState(false);
+    const [scrollIcon,setScrollIcon] = useState(true);
+    
+
+    useEffect(()=>{
+      
+      let scrollInterval: ReturnType<typeof setInterval>;
+      const timeout = setTimeout(()=>{
+        setHasMounted(true);
+        scrollInterval = setInterval(()=>{
+        setScrollIcon(prev=>{return !prev})
+      },1000)
+    },2000)
+      
+
+      return()=>{clearTimeout(timeout);
+         clearInterval(scrollInterval)}
+    },[])
+
     useEffect(()=>{
         if(scroll===1){
             nextStage(false);
@@ -128,17 +163,29 @@ export default function Work({scroll,nextStage}:WorkProps) {
             setTimeout(()=>{nextStage(true)},2000);
         }
     },[scroll])
+
+    const onScroll=(scroll:number)=>{
+      if(scroll>0){
+        console.log("scrolled",scroll)
+        setScrollState(true);
+      }
+      else{
+        console.log("notScrolled",scroll)
+        setScrollState(false);
+      }
+    }
   
   return (
     <div className={styles.screen}>
-      <div className={styles.title}>
-        Your First Service
-      </div>
+      {hasMounted&&scrollState&&<div className={`${styles.scroll} ${scrollIcon?styles.on:styles.off}`}>
+        <Icon src={IconSrc.SCROLL} size={IconSize.SMALL} color={IconColor.WHITE}/>
+        
+      </div>}
       
       <section className={styles.canvas}>
       <Canvas camera={{ position: [0, 0, -10] }}>
-        <ScrollControls pages={30}>
-            
+        <ScrollControls pages={30} >
+            <ScrollDetect onScroll={onScroll}/>
             <Scroll html>
                 <div style={{ height: '300vh' }}></div>
             </Scroll>
