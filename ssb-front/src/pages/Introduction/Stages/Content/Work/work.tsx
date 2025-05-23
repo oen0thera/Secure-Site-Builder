@@ -2,21 +2,22 @@ import * as Three from "three";
 import { Canvas, useFrame, useLoader,useThree } from "@react-three/fiber";
 import { CubicBezierCurve3,Vector3 } from "three";
 import { OrbitControls, Scroll, ScrollControls, ScrollControlsProps, ScrollControlsState, Text, useScroll } from "@react-three/drei";
-import { RefObject, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createRef, Dispatch, forwardRef, FragmentProps, RefObject, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import styles from './work.module.scss'
 import { WorkProps } from "@/types/components/pages/introduction/Content/Work.type";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
 import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
+import Button from "@/components/Button/Button";
+import { ButtonSize, ButtonType } from "@/types/components/Button.type";
 
 
 
 
 
 
-
-function LeftContent({ position, page }: BoxArgs) {
+const LeftContent = ({position,page}:BoxArgs) =>{
   const meshRef = useRef<Three.Mesh>(null!);
   const materialRef = useRef<Three.Material>(null!);
   const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
@@ -46,12 +47,12 @@ function LeftContent({ position, page }: BoxArgs) {
 
         const angle = -scroll.offset * Math.PI;
 
-        meshRef.current.position.x = baseX*2 - Math.cos(angle) * radius;
+        //meshRef.current.position.x = baseX*1.5 - Math.cos(angle) * radius;
         meshRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5;
-        textRef.current.position.x = baseX*2 - Math.cos(angle) * radius -20;
+        //textRef.current.position.x = baseX*1.5 - Math.cos(angle) * radius -18;
         
-        textRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5;
-        subTextRef.current.position.x = baseX*2 - Math.cos(angle) * radius -20;
+        textRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5
+        //subTextRef.current.position.x = baseX - Math.cos(angle) * radius -18;
         
         subTextRef.current.position.z = baseZ - Math.sin(angle) * radius - scroll.offset*scroll.pages * 5;
         
@@ -77,10 +78,10 @@ function LeftContent({ position, page }: BoxArgs) {
       <meshStandardMaterial ref={materialRef} map={texture} color="white" opacity={0}/>
       
     </mesh>
-    <Text ref={textRef} fontSize={5} position={[-10,10,20]} rotation={[0,8.9,0]}   material-opacity={0} material-depthWrite={true}>
+    <Text ref={textRef} fontSize={2} position={[-10,4,20]} rotation={[0,8.9,0]}   material-opacity={0} material-depthWrite={true}>
       Why SSB?
     </Text>
-    <Text ref={subTextRef} fontSize={3} position={[-10,1,20]} rotation={[0,8.9,0]}  material-opacity={0} material-depthWrite={true}>
+    <Text ref={subTextRef} fontSize={1} position={[-10,1,20]} rotation={[0,8.9,0]}  material-opacity={0} material-depthWrite={true}>
       {`We know what we do\nAs you do what you want`}
     </Text>
     </>
@@ -120,8 +121,14 @@ function RightContent({ position }: BoxArgs) {
   );
 }
 
-const ScrollDetect=({onScroll}:ScrollDetectProps)=>{
+const ScrollDetect=({onScroll,scrollTo,setScroll}:ScrollDetectProps)=>{
   const scroll = useScroll();
+  if(scrollTo){
+    console.log(scroll.el.scrollHeight/30*(30/4*(scrollTo-1)))
+    scroll.el.scrollTo({top:scroll.el.scrollHeight/30*(30/4*(scrollTo-1*0.7)),behavior:'smooth'});
+  }
+  setScroll(null);
+  
   onScroll(scroll.offset);
   return null;
 }
@@ -132,12 +139,17 @@ type BoxArgs = {
 };
 type ScrollDetectProps={
   onScroll:(scroll:number)=>void;
-}
+  scrollTo?:number|null;
+  setScroll:Dispatch<SetStateAction<number|null>>;
+};
 
 export default function Work({scroll,nextStage}:WorkProps) {
     const [hasMounted, setHasMounted] = useState(false);
-  const [scrollState,setScrollState] = useState(false);
+    const [scrollState,setScrollState] = useState(false);
     const [scrollIcon,setScrollIcon] = useState(true);
+    const [scrollTo,setScrollTo] = useState<number|null>(0);
+    const page = 4;
+    const content = Array(page).fill(undefined,0,page).map((item,i)=>{return(<LeftContent position={[10, 0, 20+40*i]} page={i+1}/>)});
     
 
     useEffect(()=>{
@@ -163,39 +175,34 @@ export default function Work({scroll,nextStage}:WorkProps) {
             setTimeout(()=>{nextStage(true)},2000);
         }
     },[scroll])
-
+    
     const onScroll=(scroll:number)=>{
       if(scroll>0){
-        console.log("scrolled",scroll)
         setScrollState(true);
       }
       else{
-        console.log("notScrolled",scroll)
         setScrollState(false);
       }
     }
   
   return (
     <div className={styles.screen}>
-      {hasMounted&&scrollState&&<div className={`${styles.scroll} ${scrollIcon?styles.on:styles.off}`}>
+      <section className={styles.canvas}>
+        <div className={styles.ui}>{hasMounted&&<h3 className={`${styles.scroll_ui} ${scrollState===false?styles.on:styles.off}`}>Scroll down to traverse</h3>}</div>
+        {hasMounted&&!scrollState&&<div className={`${styles.scroll} ${scrollIcon?styles.on:styles.off}`}>
         <Icon src={IconSrc.SCROLL} size={IconSize.SMALL} color={IconColor.WHITE}/>
         
       </div>}
-      
-      <section className={styles.canvas}>
       <Canvas camera={{ position: [0, 0, -10] }}>
         <ScrollControls pages={30} >
-            <ScrollDetect onScroll={onScroll}/>
+            <ScrollDetect onScroll={onScroll} scrollTo={scrollTo} setScroll={setScrollTo}/>
             <Scroll html>
-                <div style={{ height: '300vh' }}></div>
+                <div></div>
             </Scroll>
             
           <ambientLight intensity={2.5} />
           <pointLight position={[10, 10, 10]} />
-          <LeftContent position={[10, 0, 20]} page={1}/>
-          <LeftContent position={[10, 0, 60]} page={2}/>
-          <LeftContent position={[10, 0, 100]} page={3}/>
-          <LeftContent position={[10, 0, 140]} page={4}/>
+          {content}
           
           
           <gridHelper args={[10, 10]} />
@@ -205,7 +212,18 @@ export default function Work({scroll,nextStage}:WorkProps) {
         </ScrollControls>
         
       </Canvas>
+      
       </section>
+      <div className={styles.snb}>
+        <h2>스크롤 항목</h2>
+        <div className={styles.navigation}>
+          <Button size={ButtonSize.EXTRA_LARGE} content={"항목1"} type={ButtonType.DARK} onClick={()=>{setScrollTo(1);}}/>
+          <Button size={ButtonSize.EXTRA_LARGE} content={"항목2"} type={ButtonType.DARK} onClick={()=>{setScrollTo(2)}}/>
+          <Button size={ButtonSize.EXTRA_LARGE} content={"항목3"} type={ButtonType.DARK} onClick={()=>{setScrollTo(3)}}/>
+          <Button size={ButtonSize.EXTRA_LARGE} content={"항목4"} type={ButtonType.DARK} onClick={()=>{setScrollTo(4)}}/>
+
+        </div>
+      </div>
       
         
     </div>

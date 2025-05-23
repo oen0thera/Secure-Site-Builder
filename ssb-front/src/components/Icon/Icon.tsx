@@ -4,7 +4,7 @@ export default function Icon({size,src,color}:IconProps){
 
     
     return <div className={styles.icon}>
-        <img className={styles[color]} src={`/icons/${src}`} sizes={IconSize.SMALL?'10':'40'}/>
+        <img className={styles[color]} src={`/icons/${src}`} width={IconSize.SMALL?'50':'100'}/>
     </div>
 
 }

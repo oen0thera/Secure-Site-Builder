@@ -2,14 +2,18 @@ export type ButtonProps = {
   size: ButtonSize;
   content: String;
   type?:ButtonType;
+  onClick:()=>void;
 };
 export enum ButtonSize {
   SMALL = "sm",
   LARGE = "lg",
+  EXTRA_LARGE ='xl'
 }
 export enum ButtonType {
   GOOGLE = 'google',
   KAKAO = 'kakao',
   NAVER = 'naver',
+  DARK='dark',
   DEFAULT ='default'
+  
 }
