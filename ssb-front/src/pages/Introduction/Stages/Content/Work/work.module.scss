@@ -1,33 +1,87 @@
 .screen{
     position:relative;
     display:flex;
-    flex-direction: column;
-    gap:5em;
+    flex-direction: row;
     
 }
 .canvas{
-    width:100%;
-    height:100vh;
+    width:90%;
+    height:90vh;
+    margin:5em 0 0 0;
+
+    ::-webkit-scrollbar{
+        visibility: hidden;
+    }
 }
-.title{
+.ui{
     width:100%;
     height:100%;
-    display: none;
+    display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-end;
+    font-size:1em;
+    color:white;
+    position:absolute;
+    pointer-events: none;
+    z-index:20;
+    .scroll_ui{
+        
+        bottom:5%;
+        font-weight:500;
+        position:relative;
+        &.on{
+            animation: fade-in 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+        }
+        &.off{
+            animation: fade-out 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+        }
+    }
+}
+
+.scroll{
+    width:100%;
+    height:90%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
     font-size:10em;
     color:white;
     position:absolute;
     z-index:20;
     pointer-events: none;
-    transition:1s;
-    animation: fade-in 20s cubic-bezier(0.075, 0.82, 0.165, 1);
+    opacity: 0;
+    &.on{
+        animation: fade-in-slide 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+        transform: translateY(100px);
+    }
     &.off{
-        opacity:0;
-        animation: fade-out 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+       animation: fade-out 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+        transform: translateY(0);
+    }
+    &.hidden{
+        animation: fade-out 1s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
     }
     
-    
+}
+.snb{
+    color:white;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #3b3b3f;
+    width:300px;
+    margin:5em 3em;
+    padding:2em;
+    border-radius:20px;
+    flex-grow:1;
+}
+.navigation{
+    display:flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width:100%;
+    gap:1em;
+
 }
 
 section{
@@ -35,19 +89,35 @@ section{
     z-index:0;
 }
 
-@keyframes fade-in{
+@keyframes fade-in-slide{
     0%{
         opacity:0;
+        transform: translateY(-100px);
+        
     }
     100%{
         opacity:1;
+        transform: translateY(0px);
+       
+    }  
+}
+@keyframes fade-in{
+    0%{
+        opacity:0;
+
+    }
+    100%{
+        opacity:1;
+       
     }  
 }
 @keyframes fade-out{
     0%{
         opacity:1;
+        
     }
     100%{
         opacity:0;
+        
     }  
 }

@@ -18,14 +18,14 @@ export default function Login(){
                                 <input placeholder={'ID'}></input>
 
                                 <input placeholder={'Password'} type={'password'}></input>
-                                <Button size={ButtonSize.LARGE} content={"로그인"}/>
+                                <Button size={ButtonSize.LARGE} content={"로그인"} onClick={()=>{}}/>
                             </section>
                             <hr/>
 
                             <section className={styles.social_logins}>
-                                <Button size={ButtonSize.LARGE} content={"구글 로그인"} type={ButtonType.GOOGLE}/>
-                                <Button size={ButtonSize.LARGE} content={"카카오 로그인"} type={ButtonType.KAKAO}/>
-                                <Button size={ButtonSize.LARGE} content={"네이버 로그인"} type={ButtonType.NAVER}/>
+                                <Button size={ButtonSize.LARGE} content={"구글 로그인"} type={ButtonType.GOOGLE} onClick={()=>{}}/>
+                                <Button size={ButtonSize.LARGE} content={"카카오 로그인"} type={ButtonType.KAKAO} onClick={()=>{}}/>
+                                <Button size={ButtonSize.LARGE} content={"네이버 로그인"} type={ButtonType.NAVER} onClick={()=>{}}/>
 
                             </section>
                             <section className={styles.help}>

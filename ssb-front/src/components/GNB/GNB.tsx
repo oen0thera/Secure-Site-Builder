@@ -19,7 +19,7 @@ export default function GNB() {
           <li><a href={'/login'}>로그인</a></li>
           <li>회원가입</li>
           <li>
-            <Button size={ButtonSize.SMALL} content={"무료로 시작하기"}/>
+            <Button size={ButtonSize.SMALL} content={"무료로 시작하기"} onClick={()=>{}}/>
           </li>
         </ul>
       </div>

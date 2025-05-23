@@ -1,0 +1,10 @@
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+img{
+    &.white{
+        filter:invert(1);
+    }
+}
