@@ -143,12 +143,15 @@ type ScrollDetectProps={
   setScroll:Dispatch<SetStateAction<number|null>>;
 };
 
+
 export default function Work({scroll,nextStage,prevStage}:WorkProps) {
+
     const [hasMounted, setHasMounted] = useState(false);
     const [scrollState,setScrollState] = useState(false);
     const [scrollIcon,setScrollIcon] = useState(true);
     const [scrollTo,setScrollTo] = useState<number|null>(0);
     const [scrollOffset, setScrollOffset] = useState<number>(0);
+
     const page = 4;
     const content = Array(page).fill(undefined,0,page).map((item,i)=>{return(<LeftContent position={[10, 0, 20+40*i]} page={i+1}/>)});
     
@@ -181,6 +184,7 @@ export default function Work({scroll,nextStage,prevStage}:WorkProps) {
     const onScroll=(scroll:number)=>{
       if(scroll>0){
         setScrollOffset(scroll);
+
         setScrollState(true);
       }
       else{
@@ -190,6 +194,7 @@ export default function Work({scroll,nextStage,prevStage}:WorkProps) {
   
   return (
     <div className={`${styles.screen} ${scrollOffset>=1? styles.off:null}`}>
+
       <section className={styles.canvas}>
         <div className={styles.ui}>{hasMounted&&<h3 className={`${styles.scroll_ui} ${scrollState===false?styles.on:styles.off}`}>Scroll down to traverse</h3>}</div>
         {hasMounted&&!scrollState&&<div className={`${styles.scroll} ${scrollIcon?styles.on:styles.off}`}>

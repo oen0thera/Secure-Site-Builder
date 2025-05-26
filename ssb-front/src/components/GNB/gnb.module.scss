@@ -1,4 +1,5 @@
 .gnb {
+  width:100%;
   height: 5em;
   display: flex;
   align-items: center;
@@ -6,6 +7,9 @@
   color: azure;
   font-weight: 500;
   padding: 0 2em;
+  box-sizing: border-box;
+  position:fixed;
+  z-index:100;
   gap: 4em;
 }
 .gnb_bar {

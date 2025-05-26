@@ -5,6 +5,7 @@ export type StageProps = {
     currIndex:number;
     setCurrIndex: Dispatch<SetStateAction<number>>;
 
+
 }
 export type StageList = Array<StageType>;
 

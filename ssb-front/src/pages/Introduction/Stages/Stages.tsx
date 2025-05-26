@@ -5,6 +5,7 @@ import Work from "./Content/Work/Work";
 import About from "./Content/About/About";
 
 export default function Stages({stageList,currIndex, setCurrIndex}:StageProps){
+
     
     const [currStage,setCurrStage] = useState<StageType>(stageList[currIndex]);
 
@@ -16,6 +17,7 @@ export default function Stages({stageList,currIndex, setCurrIndex}:StageProps){
                 setWheelState(0);
             }
             else {setWheelState(1);}
+
             }
 
             window.addEventListener('wheel',wheelEventHandler);
@@ -38,5 +40,6 @@ export default function Stages({stageList,currIndex, setCurrIndex}:StageProps){
         }
     }
     const stageContentList:Record<StageType,React.ReactElement> = {home:<Home scroll={wheelState} nextStage={nextStage}/>,work:<Work scroll={wheelState} nextStage={nextStage} prevStage={prevStage}/>,aboutus:<About scroll={wheelState} nextStage={nextStage}/>,ideas:<div></div>,contact:<div></div>};
+
     return stageContentList[currStage];
 }
