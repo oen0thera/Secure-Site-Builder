@@ -1,0 +1,116 @@
+import * as Three from "three";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+
+import { OrbitControls, ScrollControls, useScroll } from "@react-three/drei";
+import { RefObject, useEffect, useRef, useState } from "react";
+
+import styles from './home.module.scss'
+import { HomeProps } from "@/types/components/pages/introduction/Content/Home.type";
+
+
+
+
+
+
+
+function RotateBox({ position, startPoint, resetPoint,scrollPoint }: BoxArgs) {
+  const meshRef = useRef<Three.Mesh>(null!);
+  const materialRef = useRef<Three.Material>(null!);
+  const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
+  useFrame(() => {
+    
+    materialRef.current.transparent = true;
+    if (meshRef.current) {
+      
+        meshRef.current.visible = true;
+        if(scrollPoint<=0 &&materialRef.current.opacity>0){
+          materialRef.current.opacity -=0.01;
+        }
+        else if(scrollPoint>0&&materialRef.current.opacity<1){
+          materialRef.current.opacity +=0.01;
+        }
+       
+        if (meshRef.current.position.x > resetPoint) {
+          meshRef.current.position.x = startPoint;
+        }
+        meshRef.current.position.x += 0.05;
+      
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={[position[0], position[1], position[2]]}>
+      <boxGeometry args={[20, 50, 0.1]} />
+      <meshStandardMaterial ref={materialRef} map={texture} color="white" opacity={0}/>
+    </mesh>
+  );
+}
+
+type BoxArgs = {
+  position: Array<number>;
+  resetPoint: number;
+  startPoint: number;
+  scrollPoint:number;
+};
+
+export default function Home({scroll,nextStage}:HomeProps) {
+    useEffect(()=>{
+        if(scroll===1){
+            nextStage(false);
+        }
+        else{
+            setTimeout(()=>{nextStage(true)},1000);
+        }
+    },[scroll])
+  
+  return (
+    <div className={styles.screen}>
+      <div className={scroll===1?styles.title:`${styles.title} ${styles.off}`}>
+        Your First Service
+      </div>
+      
+      <section className={styles.canvas}>
+      <Canvas camera={{ position: [0, 0, -10] }}>
+        <ScrollControls>
+          <ambientLight intensity={2.5} />
+          <pointLight position={[10, 10, 10]} />
+
+          <RotateBox position={[100, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[75, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[50, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[25, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[0, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-25, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-50, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-75, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-100, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+
+          <gridHelper args={[10, 10]} />
+          <axesHelper args={[8]} />
+          
+        </ScrollControls>
+      </Canvas>
+      </section>
+      
+       <section className={styles.canvas}>
+      <Canvas camera={{ position: [0, 0, 10] }}>
+        <ScrollControls>
+        <ambientLight intensity={2.5} />
+        <pointLight position={[10, 10, 10]} />
+          <RotateBox position={[100, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[75, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll} />
+          <RotateBox position={[50, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[25, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[0, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-25, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-50, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-75, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+          <RotateBox position={[-100, -17, 0]} startPoint={-100} resetPoint={100} scrollPoint={scroll}/>
+        <gridHelper args={[10, 10]} />
+        <axesHelper args={[8]} />
+        </ScrollControls>
+      </Canvas>
+      </section>
+    </div>
+  );
+}

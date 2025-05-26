@@ -1,8 +1,11 @@
+
 import * as Three from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 
+
 import { ScrollControls, useScroll } from "@react-three/drei";
 import { RefObject, useEffect, useRef } from "react";
+
 
 function Box() {
   return (
@@ -98,5 +101,6 @@ export default function Introduction() {
         </ScrollControls>
       </Canvas>
     </div>
+
   );
 }
