@@ -1,3 +1,4 @@
+
 import { StageType } from "@/types/components/pages/introduction/Stages.type";
 import Stages from "./Stages/Stages";
 

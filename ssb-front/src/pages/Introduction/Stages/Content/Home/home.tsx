@@ -59,7 +59,9 @@ export default function Home({scroll,nextStage}:HomeProps) {
             nextStage(false);
         }
         else{
+
             setTimeout(()=>{nextStage(true)},2000);
+
         }
     },[scroll])
   
