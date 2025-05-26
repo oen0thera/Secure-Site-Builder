@@ -173,10 +173,10 @@ export default function Work({scroll,nextStage,prevStage}:WorkProps) {
 
     useEffect(()=>{
       console.log(scroll,scrollOffset)
-      if(scroll===0 &&scrollOffset>=1){
+      if(scroll===0 &&Math.abs(scrollOffset - 1) < 0.01){
          setTimeout(()=>{nextStage(true)},1000);
         }
-      else if(scroll===1&&scrollOffset===0){
+      else if(scroll===1&&scrollOffset<0.01){
         prevStage(true);
       }
     },[scroll,scrollOffset])
@@ -193,7 +193,7 @@ export default function Work({scroll,nextStage,prevStage}:WorkProps) {
     }
   
   return (
-    <div className={`${styles.screen} ${scrollOffset>=1? styles.off:null}`}>
+    <div className={`${styles.screen} ${Math.abs(scrollOffset - 1) < 0.01? styles.off:null}`}>
 
       <section className={styles.canvas}>
         <div className={styles.ui}>{hasMounted&&<h3 className={`${styles.scroll_ui} ${scrollState===false?styles.on:styles.off}`}>Scroll down to traverse</h3>}</div>
