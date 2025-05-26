@@ -1,9 +1,11 @@
 
 import { StageType } from "@/types/components/pages/introduction/Stages.type";
-import Stages from "./Stages/Stages";
+import Stages from "@/pages/Introduction/Stages/Stages";
+import { useState } from "react";
 
 
 export default function Introduction() {
-  return (<div><Stages stageList={[StageType.HOME,StageType.WORK]} currIndex={0}/></div>
+  const [currIndex, setCurrIndex] = useState(0);
+  return (<div><Stages stageList={[StageType.HOME,StageType.WORK]} currIndex={currIndex} setCurrIndex={setCurrIndex}/></div>
   );
 }

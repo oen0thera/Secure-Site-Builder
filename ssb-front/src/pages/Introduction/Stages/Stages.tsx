@@ -35,7 +35,7 @@ export default function Stages({stageList,currIndex, setCurrIndex}:StageProps){
         }
     }
     const prevStage=(prev:boolean)=>{
-        if(prev){
+        if(prev&&currIndex-1>=0){
             setCurrIndex(currIndex-1);
         }
     }
