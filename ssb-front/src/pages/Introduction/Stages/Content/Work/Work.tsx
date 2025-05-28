@@ -1,7 +1,7 @@
 import * as Three from "three";
 import { Canvas, useFrame, useLoader,useThree } from "@react-three/fiber";
 import { CubicBezierCurve3,Vector3 } from "three";
-import { OrbitControls, Scroll, ScrollControls, ScrollControlsProps, ScrollControlsState, Text, useScroll } from "@react-three/drei";
+import { OrbitControls, RoundedBox, Scroll, ScrollControls, ScrollControlsProps, ScrollControlsState, Text, useScroll } from "@react-three/drei";
 import { createRef, Dispatch, forwardRef, FragmentProps, RefObject, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import styles from './work.module.scss'
@@ -24,6 +24,13 @@ const LeftContent = ({position,page}:BoxArgs) =>{
   const textRef = useRef<Three.Mesh>(null!);
   const subTextRef = useRef<Three.Mesh>(null!);
   const scroll = useScroll();
+
+  texture.wrapS = Three.ClampToEdgeWrapping;
+  texture.wrapT = Three.ClampToEdgeWrapping;
+  texture.center.set(0.5, 0.5);
+  texture.offset.set(0, 0);
+  texture.repeat.set(1, 1);
+  texture.rotation = 0;
   
   useFrame((state) => {
     materialRef.current.transparent = true;
@@ -74,9 +81,14 @@ const LeftContent = ({position,page}:BoxArgs) =>{
   return (
     <>
     <mesh ref={meshRef} position={[position[0], position[1], position[2]]} rotation={[0,10,0]}>
-      <boxGeometry args={[10, 15, 0.1]} />
-      <meshStandardMaterial ref={materialRef} map={texture} color="white" opacity={0}/>
-      
+      <RoundedBox args={[10, 15, 0.1]} radius={0.1} >
+        <meshStandardMaterial color="#ffffff"/>
+      </RoundedBox>
+      <meshStandardMaterial ref={materialRef} map={texture} color="white" opacity={0} />
+      <mesh position={[0, 0, 0.501]}> {/* 박스 바로 위에 올림 */}
+      <planeGeometry args={[9, 14]} />
+      <meshStandardMaterial map={texture} transparent />
+</mesh>
     </mesh>
     <Text ref={textRef} fontSize={2} position={[-10,4,20]} rotation={[0,8.9,0]}   material-opacity={0} material-depthWrite={true}>
       Why SSB?
