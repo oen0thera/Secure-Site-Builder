@@ -31,7 +31,7 @@ export default function About({scroll,nextStage}:AboutProps) {
               
               <gridHelper args={[10, 10]} />
               <axesHelper args={[8]} />
-              <OrbitControls autoRotate autoRotateSpeed={0.5}/>
+              <OrbitControls/>
               
             </ScrollControls>
             
