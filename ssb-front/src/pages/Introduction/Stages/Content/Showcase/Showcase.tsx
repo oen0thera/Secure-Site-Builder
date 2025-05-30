@@ -4,8 +4,8 @@ import { CubicBezierCurve3,Vector3 } from "three";
 import { OrbitControls, RoundedBox, Scroll, ScrollControls, ScrollControlsProps, ScrollControlsState, Text, useScroll } from "@react-three/drei";
 import { createRef, Dispatch, forwardRef, FragmentProps, RefObject, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-import styles from './work.module.scss'
-import { WorkProps } from "@/types/components/pages/introduction/Content/Work.type";
+import styles from './showcase.module.scss';
+import { ShowcaseProps } from "@/types/components/pages/introduction/Content/Showcase.type";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
 import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
@@ -156,7 +156,7 @@ type ScrollDetectProps={
 };
 
 
-export default function Work({scroll,nextStage,prevStage}:WorkProps) {
+export default function Showcase({scroll,nextStage,prevStage}:ShowcaseProps) {
 
     const [hasMounted, setHasMounted] = useState(false);
     const [scrollState,setScrollState] = useState(false);
