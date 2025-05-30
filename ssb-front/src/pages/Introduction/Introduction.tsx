@@ -6,6 +6,6 @@ import { useState } from "react";
 
 export default function Introduction() {
   const [currIndex, setCurrIndex] = useState(0);
-  return (<div><Stages stageList={[StageType.HOME,StageType.WORK,StageType.ABOUTUS]} currIndex={currIndex} setCurrIndex={setCurrIndex}/></div>
+  return (<div><Stages stageList={[StageType.HOME,StageType.SHOWCASE]} currIndex={currIndex} setCurrIndex={setCurrIndex}/></div>
   );
 }
