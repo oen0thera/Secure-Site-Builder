@@ -3,26 +3,57 @@ import {
   RoundedBox,
   Text,
   useScroll,
+  useTexture,
   useVideoTexture,
 } from "@react-three/drei";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { ShowcaseUnitArgs } from "@/types/components/pages/introduction/Content/Showcase.type";
+import {
+  ShowcaseUnitArgs,
+  ShowcaseUnitEnum,
+} from "@/types/components/pages/introduction/Content/Showcase.type";
 
-const ShowcaseLeftContent = ({ position, page }: ShowcaseUnitArgs) => {
+const ShowcaseLeftContent = ({
+  position,
+  page,
+  type,
+  content,
+  setHover,
+}: ShowcaseUnitArgs) => {
+  const [bloom, setBloom] = useState(false);
   const meshRef = useRef<Three.Mesh>(null!);
   const materialRef = useRef<Three.Material>(null!);
   //const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
-  const texture = useVideoTexture("/videos/showcase_1.mp4", {
+  let videoSrc;
+  switch (type) {
+    case ShowcaseUnitEnum.ABOUT:
+      videoSrc = "/videos/showcase_1.mp4";
+      break;
+    default:
+      videoSrc = "/videos/showcase_4.mp4";
+  }
+  const texture = useVideoTexture(videoSrc, {
     loop: true,
     start: false,
     muted: true,
     crossOrigin: "anonymous",
   });
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const textRef = useRef<Three.Mesh>(null!);
   const subTextRef = useRef<Three.Mesh>(null!);
   const scroll = useScroll();
+  let titlePositionY;
+  switch (type) {
+    case ShowcaseUnitEnum.ABOUT:
+      titlePositionY = 12;
+      break;
+    case ShowcaseUnitEnum.WORK:
+      titlePositionY = 13;
+      break;
+    default:
+      titlePositionY = 11;
+  }
 
   texture.wrapS = Three.ClampToEdgeWrapping;
   texture.wrapT = Three.ClampToEdgeWrapping;
@@ -33,6 +64,8 @@ const ShowcaseLeftContent = ({ position, page }: ShowcaseUnitArgs) => {
 
   const handlePointerOver = () => {
     videoRef.current?.play();
+    setHover(true);
+    setBloom(true);
   };
 
   const handlePointerOut = () => {
@@ -40,6 +73,8 @@ const ShowcaseLeftContent = ({ position, page }: ShowcaseUnitArgs) => {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
+    setHover(false);
+    setBloom(false);
   };
 
   if (texture.image && !videoRef.current) {
@@ -109,6 +144,8 @@ const ShowcaseLeftContent = ({ position, page }: ShowcaseUnitArgs) => {
         <meshStandardMaterial
           ref={materialRef}
           map={texture}
+          emissive={bloom ? "white" : ""}
+          emissiveIntensity={bloom ? 10 : 0}
           color="black"
           opacity={0}
         />
@@ -122,22 +159,23 @@ const ShowcaseLeftContent = ({ position, page }: ShowcaseUnitArgs) => {
       <Text
         ref={textRef}
         fontSize={2}
-        position={[-10, 4, 20]}
+        position={[-10, titlePositionY, 20]}
         rotation={[0, 8.9, 0]}
         material-opacity={0}
         material-depthWrite={true}
       >
-        Why SSB?
+        {type.toLocaleUpperCase()}
       </Text>
       <Text
         ref={subTextRef}
+        maxWidth={20}
         fontSize={1}
         position={[-10, 1, 20]}
         rotation={[0, 8.9, 0]}
         material-opacity={0}
         material-depthWrite={true}
       >
-        {`We know what we do\nAs you do what you want`}
+        {content}
       </Text>
     </>
   );

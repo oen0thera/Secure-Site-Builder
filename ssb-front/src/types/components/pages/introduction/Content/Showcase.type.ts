@@ -10,6 +10,8 @@ export type ShowcaseUnitArgs = {
   position: Array<number>;
   page: number;
   type: ShowcaseUnitEnum;
+  content: string;
+  setHover: Dispatch<SetStateAction<boolean>>;
 };
 export enum ShowcaseUnitEnum {
   ABOUT = "about",
