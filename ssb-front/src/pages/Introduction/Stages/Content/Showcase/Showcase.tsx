@@ -116,7 +116,7 @@ eCommX 보안 쇼핑몰 구축
           position={[10, 0, 20 + 40 * i]}
           page={i + 1}
           type={type}
-          content={content}
+          content={''}
           setHover={setPointerHover}
         />
       );

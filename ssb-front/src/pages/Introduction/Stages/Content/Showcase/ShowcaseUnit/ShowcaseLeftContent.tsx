@@ -20,7 +20,7 @@ const ShowcaseLeftContent = ({
   content,
   setHover,
 }: ShowcaseUnitArgs) => {
-  const [bloom, setBloom] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const meshRef = useRef<Three.Mesh>(null!);
   const materialRef = useRef<Three.Material>(null!);
   //const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
@@ -63,18 +63,26 @@ const ShowcaseLeftContent = ({
   texture.rotation = 0;
 
   const handlePointerOver = () => {
-    videoRef.current?.play();
+    if(videoRef.current){
+      if(videoRef.current.currentTime===0){
+          videoRef.current?.play();
+      }
+    }
+    
     setHover(true);
-    setBloom(true);
+    
   };
 
   const handlePointerOut = () => {
     if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
+      if(videoRef.current.currentTime>0){
+          videoRef.current.pause();
+          videoRef.current.currentTime = 0;
+      }
+      
     }
     setHover(false);
-    setBloom(false);
+    
   };
 
   if (texture.image && !videoRef.current) {
@@ -135,7 +143,7 @@ const ShowcaseLeftContent = ({
         ref={meshRef}
         position={[position[0], position[1], position[2]]}
         rotation={[0, 10, 0]}
-        onPointerOver={handlePointerOver}
+        onPointerMove={handlePointerOver}
         onPointerOut={handlePointerOut}
       >
         <RoundedBox args={[10, 15, 0.1]} radius={0.5}>
@@ -144,8 +152,6 @@ const ShowcaseLeftContent = ({
         <meshStandardMaterial
           ref={materialRef}
           map={texture}
-          emissive={bloom ? "white" : ""}
-          emissiveIntensity={bloom ? 10 : 0}
           color="black"
           opacity={0}
         />
