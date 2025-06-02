@@ -33,11 +33,15 @@
         background-color: #00C73C;
     }
     &.dark{
-        background-color: #21212254;
+        //background-color: #70707554;
+        background: linear-gradient(135deg,#7070750a,#33333300);
         color:rgb(119, 117, 117);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);   
+        box-shadow:0 8px 32px 0 rgba(0,0,0,0.37);
         transition:0.3s ease-in-out;
         &:hover{
-            background-color: #212122;
+            background-color: #39393d;
             color:white;
         }
     }
