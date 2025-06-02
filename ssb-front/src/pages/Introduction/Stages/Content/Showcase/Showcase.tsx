@@ -37,7 +37,8 @@ import Button from "@/components/Button/Button";
 import { ButtonSize, ButtonType } from "@/types/components/Button.type";
 import ShowcaseLeftContent from "@/pages/Introduction/Stages/Content/Showcase/ShowcaseUnit/ShowcaseLeftContent";
 import ScrollDetect from "@/pages/Introduction/Stages/Content/Showcase/ScrollDetect/ScrollDetect";
-
+import ShowcasePlane from "./ShowcasePlane/ShowcasePlane";
+import ShowcaseBackground from "./ShowcaseBackground/ShowcaseBackground";
 export default function Showcase({
   scroll,
   nextStage,
@@ -115,7 +116,7 @@ eCommX 보안 쇼핑몰 구축
           position={[10, 0, 20 + 40 * i]}
           page={i + 1}
           type={type}
-          content={content}
+          content={''}
           setHover={setPointerHover}
         />
       );
@@ -148,6 +149,9 @@ eCommX 보안 쇼핑몰 구축
       prevStage(true);
     }
   }, [scroll, scrollOffset]);
+
+  
+  
 
   const onScroll = (scroll: number) => {
     if (scroll > 0) {
@@ -192,6 +196,7 @@ eCommX 보안 쇼핑몰 구축
           </div>
         )}
         <Canvas camera={{ position: [0, 0, -10] }}>
+          <ShowcaseBackground/>
           <ScrollControls pages={30}>
             <ScrollDetect
               onScroll={onScroll}
@@ -205,9 +210,10 @@ eCommX 보안 쇼핑몰 구축
             <ambientLight intensity={2.5} />
             <pointLight position={[10, 10, 10]} />
             {content}
-
+            <ShowcasePlane />
             <gridHelper args={[10, 10]} />
             <axesHelper args={[8]} />
+            
             {/* <OrbitControls/> */}
           </ScrollControls>
         </Canvas>
