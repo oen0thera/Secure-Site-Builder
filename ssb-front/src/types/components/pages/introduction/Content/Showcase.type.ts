@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { Vector3 } from "three";
 
 export type ShowcaseProps = {
   scroll: number;
@@ -12,6 +13,7 @@ export type ShowcaseUnitArgs = {
   type: ShowcaseUnitEnum;
   content: string;
   setHover: Dispatch<SetStateAction<boolean>>;
+  setScreenOff: Dispatch<SetStateAction<boolean>>;
 };
 export enum ShowcaseUnitEnum {
   ABOUT = "about",
