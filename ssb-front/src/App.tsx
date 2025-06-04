@@ -6,14 +6,16 @@ import Main from "@/pages/Main/Main";
 import Introduction from "@/pages/Introduction/Introduction";
 import Login from "./pages/Login/Login";
 import GNB from "./components/GNB/GNB";
+import About from "./pages/Introduction/Stages/Content/Showcase/ShowcaseUnit/ShowcaseDetails/About";
 
 function App() {
   return (
-    <div className='app'>
+    <div className="app">
       <GNB />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/intro" element={<Introduction />} />
+        <Route path="/intro/about" element={<About />} />
         <Route path="/login" element={<Login />} />
       </Routes>
     </div>

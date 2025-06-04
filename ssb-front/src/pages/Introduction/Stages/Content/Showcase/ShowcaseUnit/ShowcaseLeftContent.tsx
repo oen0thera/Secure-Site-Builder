@@ -7,11 +7,12 @@ import {
   useVideoTexture,
 } from "@react-three/drei";
 import { useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import {
   ShowcaseUnitArgs,
   ShowcaseUnitEnum,
 } from "@/types/components/pages/introduction/Content/Showcase.type";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ShowcaseLeftContent = ({
   position,
@@ -19,10 +20,14 @@ const ShowcaseLeftContent = ({
   type,
   content,
   setHover,
+  setScreenOff,
 }: ShowcaseUnitArgs) => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const meshRef = useRef<Three.Mesh>(null!);
   const materialRef = useRef<Three.Material>(null!);
+  const location = useLocation();
+  const navigate = useNavigate();
+
   //const texture = useLoader(Three.TextureLoader,'/images/sample_image.png')
   let videoSrc;
   switch (type) {
@@ -42,7 +47,9 @@ const ShowcaseLeftContent = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const textRef = useRef<Three.Mesh>(null!);
   const subTextRef = useRef<Three.Mesh>(null!);
+  const { camera } = useThree();
   const scroll = useScroll();
+  const lerpOffset = useRef(0);
   let titlePositionY;
   switch (type) {
     case ShowcaseUnitEnum.ABOUT:
@@ -63,26 +70,26 @@ const ShowcaseLeftContent = ({
   texture.rotation = 0;
 
   const handlePointerOver = () => {
-    if(videoRef.current){
-      if(videoRef.current.currentTime===0){
-          videoRef.current?.play();
+    if (videoRef.current) {
+      if (videoRef.current.currentTime === 0) {
+        videoRef.current?.play();
       }
     }
-    
+
     setHover(true);
-    
   };
 
   const handlePointerOut = () => {
     if (videoRef.current) {
-      if(videoRef.current.currentTime>0){
-          videoRef.current.pause();
-          videoRef.current.currentTime = 0;
+      if (videoRef.current.currentTime > 0) {
+        videoRef.current.pause();
+        videoRef.current.currentTime = 0;
       }
-      
     }
     setHover(false);
-    
+  };
+  const handlePointerClick = (e: ThreeEvent<PointerEvent>) => {
+    setIsClicked(true);
   };
 
   if (texture.image && !videoRef.current) {
@@ -90,6 +97,47 @@ const ShowcaseLeftContent = ({
     videoRef.current = texture.image as HTMLVideoElement;
   }
 
+  // 컨텐트 클릭시 smooth camera lookat 및 zoom-in, 페이지 전환
+  useFrame((state) => {
+    if (isClicked) {
+      if (meshRef.current) {
+        const currCameraDirection = new Three.Vector3(); //현재 카메라가 보고 있는 방향 벡터
+        const currCameraPosition = new Three.Vector3();
+        camera.getWorldDirection(currCameraDirection); //카메라가 보고 있는 방향을 저장
+        camera.getWorldPosition(currCameraPosition);
+        currCameraDirection.add(currCameraPosition);
+        const targetPosition = meshRef.current.position; //목표 벡터 (클릭한 meshRef)
+        if (lerpOffset.current < 1) {
+          lerpOffset.current = Math.min(lerpOffset.current + 0.001, 1);
+
+          const cosLerpOffset =
+            (1 - Math.cos(lerpOffset.current * Math.PI)) / 2; //(1-cosπx)/2의 형태로 cosLerpOffset 증가
+          // 초기 느리고 중간에서 빠르게 증가, 끝에서 완화하는 형태
+
+          const lerpDirection = currCameraDirection.lerp(
+            targetPosition,
+            cosLerpOffset
+          ); //보간 벡터로 방향 변경, cosLerpOffset으로 보간 간격 조정
+          const lerpPosition = currCameraPosition.lerp(
+            targetPosition,
+            cosLerpOffset
+          ); //보간 벡터로 이동, cosLerpOffset으로 보간 간격 조정
+          camera.lookAt(lerpDirection); //보간 벡터 방향으로 천천히 변경
+          camera.position.copy(lerpPosition); //보간 벡터 위치로 천천히 이동
+          const distance = lerpPosition.distanceTo(targetPosition);
+          if (distance < 10) {
+            materialRef.current.opacity -= 0.05;
+            setScreenOff(true); //천천히 fadeout
+            setTimeout(() => {
+              navigate(`${location.pathname}/about`);
+            }, 1000); //해당 object에 충분히 가까워졌을경우(<10) 상세 페이지로 이동, fadeout될때까지 1초 대기
+          }
+        }
+      }
+    }
+  });
+
+  // SNB 클릭시 smooth 스크롤 및 Fade-in/Fade-out 설정
   useFrame((state) => {
     materialRef.current.transparent = true;
     const textMat = textRef.current.material as Three.Material;
@@ -98,14 +146,13 @@ const ShowcaseLeftContent = ({
     const camera = new Three.Vector3(0, 0, -10);
     const cameraPos = new Three.Vector3(-state.pointer.x, state.pointer.y, 0);
     const pointerPos = camera.lerp(cameraPos, 0.01);
-    state.camera.lookAt(pointerPos);
-
     if (meshRef.current) {
       let scrollPosition = 0;
       meshRef.current.visible = true;
       textRef.current.visible = true;
 
-      if (materialRef.current.opacity < 1) materialRef.current.opacity += 0.01;
+      if (materialRef.current.opacity < 1 && !isClicked)
+        materialRef.current.opacity += 0.05;
       const radius = 8;
       const baseX = position[0];
       const baseZ = position[2];
@@ -126,7 +173,7 @@ const ShowcaseLeftContent = ({
 
       const stageOffset = scroll.offset * 4; // 페이지 4단계 정규화
       const fadeRange = 0.9; // 얼마나 일찍/늦게 보이게 할지
-      const fadeSpeed = 0.1;
+      const fadeSpeed = 0.1; // Fade-in/Fade-out 속도
 
       const distance = Math.abs(stageOffset - page);
       const shouldShow = distance < fadeRange;
@@ -145,6 +192,7 @@ const ShowcaseLeftContent = ({
         rotation={[0, 10, 0]}
         onPointerMove={handlePointerOver}
         onPointerOut={handlePointerOut}
+        onPointerDown={handlePointerClick}
       >
         <RoundedBox args={[10, 15, 0.1]} radius={0.5}>
           <meshStandardMaterial color="#000000" />
@@ -159,7 +207,12 @@ const ShowcaseLeftContent = ({
           {" "}
           {/* 박스 바로 위에 올림 */}
           <planeGeometry args={[9, 14]} />
-          <meshStandardMaterial map={texture} transparent />
+          <meshStandardMaterial
+            map={texture}
+            ref={materialRef}
+            opacity={0}
+            transparent
+          />
         </mesh>
       </mesh>
       <Text

@@ -44,6 +44,7 @@ export default function Showcase({
   nextStage,
   prevStage,
 }: ShowcaseProps) {
+  const [screenOff, setScreenOff] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [scrollState, setScrollState] = useState(false);
   const [scrollIcon, setScrollIcon] = useState(true);
@@ -116,8 +117,9 @@ eCommX 보안 쇼핑몰 구축
           position={[10, 0, 20 + 40 * i]}
           page={i + 1}
           type={type}
-          content={''}
+          content={""}
           setHover={setPointerHover}
+          setScreenOff={setScreenOff}
         />
       );
     });
@@ -150,9 +152,6 @@ eCommX 보안 쇼핑몰 구축
     }
   }, [scroll, scrollOffset]);
 
-  
-  
-
   const onScroll = (scroll: number) => {
     if (scroll > 0) {
       setScrollOffset(scroll);
@@ -166,7 +165,7 @@ eCommX 보안 쇼핑몰 구축
   return (
     <div
       className={`${styles.screen} ${
-        Math.abs(scrollOffset - 1) < 0.01 ? styles.off : null
+        screenOff || Math.abs(scrollOffset - 1) < 0.01 ? styles.off : null
       }`}
       style={{ cursor: pointerHover ? "pointer" : "" }}
     >
@@ -196,7 +195,7 @@ eCommX 보안 쇼핑몰 구축
           </div>
         )}
         <Canvas camera={{ position: [0, 0, -10] }}>
-          <ShowcaseBackground/>
+          <ShowcaseBackground />
           <ScrollControls pages={30}>
             <ScrollDetect
               onScroll={onScroll}
@@ -213,7 +212,7 @@ eCommX 보안 쇼핑몰 구축
             <ShowcasePlane />
             <gridHelper args={[10, 10]} />
             <axesHelper args={[8]} />
-            
+
             {/* <OrbitControls/> */}
           </ScrollControls>
         </Canvas>
