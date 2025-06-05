@@ -6,7 +6,7 @@ import Main from "@/pages/Main/Main";
 import Introduction from "@/pages/Introduction/Introduction";
 import Login from "./pages/Login/Login";
 import GNB from "./components/GNB/GNB";
-import About from "./pages/Introduction/Stages/Content/Showcase/ShowcaseUnit/ShowcaseDetails/About";
+import About from "./pages/Introduction/Stages/Content/Showcase/ShowcaseUnit/ShowcaseDetails/About/About";
 
 function App() {
   return (
