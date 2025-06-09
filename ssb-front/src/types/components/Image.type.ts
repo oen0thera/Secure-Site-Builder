@@ -12,10 +12,12 @@ export enum ImageSrc {
   Banner1 = "banner_1.png",
   Banner2 = "banner_2.png",
   Banner3 = "banner_3.png",
+  TECH = "tech.png",
 }
 
 export enum ImageType {
   LOGO = "logo",
   BANNER = "banner",
   TEMPLATE = "template",
+  TECH = "tech",
 }
