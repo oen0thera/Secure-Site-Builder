@@ -2,22 +2,62 @@ import Image from "@/components/Image/Image";
 import styles from "./about.module.scss";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
 import { useEffect, useRef } from "react";
+import Button from "@/components/Button/Button";
+import { ButtonSize, ButtonType } from "@/types/components/Button.type";
 
 export default function About() {
   const bannerRef = useRef<HTMLVideoElement>(null);
 
   return (
     <div className={styles.about}>
-      <h3 className={styles.title}>저희에 대해서 알려드릴게요</h3>
-      {/* <section className={styles.section}>
-        <video src={"/videos/test_banner.mp4"} loop autoPlay muted></video>
-      </section> */}
-
-      <section className={styles.section}>
+      <div className={styles.snb}>
+        <h2>스크롤 항목</h2>
+        <div className={styles.navigation}>
+          <Button
+            size={ButtonSize.SMALL}
+            content={"항목1"}
+            type={ButtonType.DARK}
+            onClick={() => {}}
+          />
+          <Button
+            size={ButtonSize.SMALL}
+            content={"항목2"}
+            type={ButtonType.DARK}
+            onClick={() => {}}
+          />
+          <Button
+            size={ButtonSize.SMALL}
+            content={"항목3"}
+            type={ButtonType.DARK}
+            onClick={() => {}}
+          />
+          <Button
+            size={ButtonSize.SMALL}
+            content={"항목4"}
+            type={ButtonType.DARK}
+            onClick={() => {}}
+          />
+        </div>
+      </div>
+      <section className={styles.banner}>
+        <video
+          className={styles.banner_video}
+          src={"/videos/sample.mp4"}
+          loop
+          autoPlay
+          muted
+        ></video>
+        <h3 className={styles.title}>Sample Sample Title</h3>
         <div
           className={styles.aboutus}
         >{`저희 서비스는 기업의 퍼스널 브랜딩 어쩌구\n새로운 시대의 장을 여는 저쩌구\n이를 통해 디지털 시대의 선구자가 되겠읍니다`}</div>
       </section>
+
+      {/* <section className={styles.section}>
+        <div
+          className={styles.aboutus}
+        >{`저희 서비스는 기업의 퍼스널 브랜딩 어쩌구\n새로운 시대의 장을 여는 저쩌구\n이를 통해 디지털 시대의 선구자가 되겠읍니다`}</div>
+      </section> */}
       <section className={styles.section}>
         <div className={styles.company}>
           <div className={styles.company_image}>
@@ -94,6 +134,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      <section className={styles.sec}></section>
     </div>
   );
 }
