@@ -1,17 +1,55 @@
 import Image from "@/components/Image/Image";
 import styles from "./about.module.scss";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button/Button";
 import { ButtonSize, ButtonType } from "@/types/components/Button.type";
 
 export default function About() {
+  const [snbMarginTop, setSnbMarginTop] = useState(200);
+  const [moveSnb, setMoveSnb] = useState(false);
   const bannerRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const scrollEvent = (e: WheelEvent) => {
+      const offsetY = 200;
+      console.log("window.scrollY:", window.scrollY);
+      console.log("e.deltaY:", e.deltaY);
+      console.log("window.screenY:", window.screenY);
+      console.log("window.innerHeight:", window.innerHeight);
+      console.log(
+        "document.scrollHeight",
+        document.scrollingElement?.scrollHeight
+      );
+      if (e.deltaY < 0 && window.innerHeight / 2 > window.scrollY)
+        setSnbMarginTop(offsetY);
+      else if (
+        document.scrollingElement &&
+        window.scrollY + window.innerHeight + offsetY >
+          document.scrollingElement?.scrollHeight
+      )
+        setSnbMarginTop(
+          document.documentElement.scrollHeight -
+            offsetY -
+            window.innerHeight / 2
+        );
+      else {
+        if (e.deltaY > 0)
+          setSnbMarginTop(window.scrollY + window.innerHeight / 2 + offsetY);
+        else setSnbMarginTop(window.scrollY - offsetY);
+      }
+    };
+    window.addEventListener("wheel", scrollEvent);
+    return () => window.removeEventListener("wheel", scrollEvent);
+  }, [window]);
+  useEffect(() => {
+    console.log("snbMarginTop:", snbMarginTop);
+  }, [snbMarginTop]);
 
   return (
     <div className={styles.about}>
-      <div className={styles.snb}>
-        <h2>스크롤 항목</h2>
+      <div className={styles.snb} style={{ marginTop: `${snbMarginTop}px` }}>
+        <h3>SNB</h3>
         <div className={styles.navigation}>
           <Button
             size={ButtonSize.SMALL}
