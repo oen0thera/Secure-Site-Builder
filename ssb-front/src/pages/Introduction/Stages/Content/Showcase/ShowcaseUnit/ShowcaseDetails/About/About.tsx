@@ -1,48 +1,142 @@
 import Image from "@/components/Image/Image";
 import styles from "./about.module.scss";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button/Button";
 import { ButtonSize, ButtonType } from "@/types/components/Button.type";
+import Icon from "@/components/Icon/Icon";
+import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 
 export default function About() {
+  const [scrollMarginTop, setScrollMarginTop] = useState(200);
+  const [toggleMenu, setToggleMenu] = useState(false);
+
   const bannerRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    const scrollEvent = (e: WheelEvent) => {
+      const offsetY = 200;
+      console.log("window.scrollY:", window.scrollY);
+      console.log("e.deltaY:", e.deltaY);
+      console.log("window.screenY:", window.screenY);
+      console.log("window.innerHeight:", window.innerHeight);
+      console.log(
+        "document.scrollHeight",
+        document.scrollingElement?.scrollHeight
+      );
+      if (e.deltaY < 0 && window.innerHeight / 2 > window.scrollY)
+        setScrollMarginTop(offsetY);
+      else if (
+        document.scrollingElement &&
+        window.scrollY + window.innerHeight + offsetY >
+          document.scrollingElement?.scrollHeight
+      )
+        setScrollMarginTop(
+          document.documentElement.scrollHeight -
+            offsetY -
+            window.innerHeight / 2
+        );
+      else {
+        if (e.deltaY > 0)
+          setScrollMarginTop(window.scrollY + window.innerHeight / 2 + offsetY);
+        else setScrollMarginTop(window.scrollY - offsetY);
+      }
+    };
+    window.addEventListener("wheel", scrollEvent);
+    return () => window.removeEventListener("wheel", scrollEvent);
+  }, [window]);
+  useEffect(() => {
+    console.log("scrollMarginTop:", scrollMarginTop);
+  }, [scrollMarginTop]);
 
   return (
     <div className={styles.about}>
-      <div className={styles.snb}>
-        <h2>스크롤 항목</h2>
+      <div
+        className={`${styles.page_menu} ${
+          toggleMenu ? styles.open : styles.close
+        }`}
+        onClick={() => {
+          setToggleMenu((prevState) => {
+            if (prevState === false) return !prevState;
+            else return prevState;
+          });
+        }}
+      >
+        {toggleMenu ? (
+          <Icon
+            size={IconSize.SMALL}
+            src={IconSrc.CHEVRON}
+            color={IconColor.WHITE}
+            options={{ inverted: true }}
+          ></Icon>
+        ) : (
+          <Icon
+            size={IconSize.SMALL}
+            src={IconSrc.CHEVRON}
+            color={IconColor.WHITE}
+          ></Icon>
+        )}
+        <ul className={styles.page_menu_list}>
+          <li>
+            <h2>About</h2>
+          </li>
+          <li>
+            <h2>Work</h2>
+          </li>
+          <li>
+            <h2>Idea</h2>
+          </li>
+          <li>
+            <h2>Contact</h2>
+          </li>
+        </ul>
+        <div
+          className={styles.page_menu_close}
+          onClick={(e) => {
+            e.stopPropagation();
+            setToggleMenu((prevState) => {
+              return !prevState;
+            });
+          }}
+        ></div>
+      </div>
+      <div
+        className={styles.scroll_menu}
+        style={{ marginTop: `${scrollMarginTop}px` }}
+      >
+        <h3>SNB</h3>
         <div className={styles.navigation}>
           <Button
-            size={ButtonSize.SMALL}
+            size={ButtonSize.EXTRA_SMALL}
             content={"항목1"}
             type={ButtonType.DARK}
             onClick={() => {}}
           />
           <Button
-            size={ButtonSize.SMALL}
+            size={ButtonSize.EXTRA_SMALL}
             content={"항목2"}
             type={ButtonType.DARK}
             onClick={() => {}}
           />
           <Button
-            size={ButtonSize.SMALL}
+            size={ButtonSize.EXTRA_SMALL}
             content={"항목3"}
             type={ButtonType.DARK}
             onClick={() => {}}
           />
           <Button
-            size={ButtonSize.SMALL}
+            size={ButtonSize.EXTRA_SMALL}
             content={"항목4"}
             type={ButtonType.DARK}
             onClick={() => {}}
           />
         </div>
       </div>
+
       <section className={styles.banner}>
         <video
           className={styles.banner_video}
-          src={"/videos/sample.mp4"}
+          src={"/videos/sample_1.mp4"}
           loop
           autoPlay
           muted
