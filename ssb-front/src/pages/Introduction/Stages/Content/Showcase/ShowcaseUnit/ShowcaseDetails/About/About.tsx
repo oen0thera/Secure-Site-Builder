@@ -16,14 +16,14 @@ export default function About() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     const scrollEvent = (e: WheelEvent) => {
       const offsetY = 200;
-      console.log("window.scrollY:", window.scrollY);
-      console.log("e.deltaY:", e.deltaY);
-      console.log("window.screenY:", window.screenY);
-      console.log("window.innerHeight:", window.innerHeight);
-      console.log(
-        "document.scrollHeight",
-        document.scrollingElement?.scrollHeight
-      );
+      //console.log("window.scrollY:", window.scrollY);
+      //console.log("e.deltaY:", e.deltaY);
+      // console.log("window.screenY:", window.screenY);
+      // console.log("window.innerHeight:", window.innerHeight);
+      // console.log(
+      //   "document.scrollHeight",
+      //   document.scrollingElement?.scrollHeight
+      // );
       if (e.deltaY < 0 && window.innerHeight / 2 > window.scrollY)
         setScrollMarginTop(offsetY);
       else if (
@@ -45,9 +45,7 @@ export default function About() {
     window.addEventListener("wheel", scrollEvent);
     return () => window.removeEventListener("wheel", scrollEvent);
   }, [window]);
-  useEffect(() => {
-    console.log("scrollMarginTop:", scrollMarginTop);
-  }, [scrollMarginTop]);
+  useEffect(() => {}, [scrollMarginTop]);
 
   return (
     <div className={styles.about}>
