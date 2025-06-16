@@ -7,6 +7,7 @@ import Introduction from "@/pages/Introduction/Introduction";
 import Login from "./pages/Login/Login";
 import GNB from "./components/GNB/GNB";
 import About from "./pages/Introduction/Stages/Content/Showcase/ShowcaseUnit/ShowcaseDetails/About/About";
+import Template from "./pages/Templates/Template";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/intro" element={<Introduction />} />
+        <Route path="/templates" element={<Template />} />
         <Route path="/intro/about" element={<About />} />
         <Route path="/login" element={<Login />} />
       </Routes>
