@@ -1,34 +1,51 @@
 import { useRef } from "react";
 import styles from "./customizer.module.scss";
+import {
+  customComponentType,
+  customizerProps,
+} from "@/types/components/pages/custom/Custom.type";
 
-export default function Customizer() {
+export default function Customizer({ handleCustomDrag }: customizerProps) {
   const ghostRef = useRef<HTMLDivElement>(null);
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
-    //드래그 구현
-    const currentElement = event.currentTarget; //현재 드래그 중인 element
-    const ghostElement = ghostRef.current; //드래그 중일때의 ghost element
-    if (currentElement && ghostElement) {
-      const currentElementStyle = getComputedStyle(currentElement); //현재 드래그 중인 element의 스타일 불러오기 및 ghostElement에 복사
-      ghostElement.style.width = currentElementStyle.width;
-      ghostElement.style.height = currentElementStyle.height;
-      ghostElement.style.backgroundColor = currentElementStyle.backgroundColor;
-      ghostElement.style.borderRadius = currentElementStyle.borderRadius;
-      ghostElement.style.border = currentElementStyle.border;
-      ghostElement.style.fontSize = currentElementStyle.fontSize;
-      ghostElement.style.color = currentElementStyle.color;
-      ghostElement.style.display = currentElementStyle.display;
-      ghostElement.style.alignItems = currentElementStyle.alignItems;
-      ghostElement.style.justifyContent = currentElementStyle.justifyContent;
-      ghostElement.style.textAlign = currentElementStyle.textAlign;
-      ghostElement.textContent = currentElement.textContent; //현재 드래그중인 element의 textContent복사
+    if (event.type == "dragstart") {
+      handleCustomDrag({ isDragging: true, type: customComponentType.GNB });
+      //드래그 구현
+      const currentElement = event.currentTarget; //현재 드래그 중인 element
+      const ghostElement = ghostRef.current; //드래그 중일때의 ghost element
+      if (currentElement && ghostElement) {
+        const currentElementStyle = getComputedStyle(currentElement); //현재 드래그 중인 element의 스타일 불러오기 및 ghostElement에 복사
+        ghostElement.style.width = currentElementStyle.width;
+        ghostElement.style.height = currentElementStyle.height;
+        ghostElement.style.backgroundColor =
+          currentElementStyle.backgroundColor;
+        ghostElement.style.borderRadius = currentElementStyle.borderRadius;
+        ghostElement.style.border = currentElementStyle.border;
+        ghostElement.style.fontSize = currentElementStyle.fontSize;
+        ghostElement.style.color = currentElementStyle.color;
+        ghostElement.style.display = currentElementStyle.display;
+        ghostElement.style.alignItems = currentElementStyle.alignItems;
+        ghostElement.style.justifyContent = currentElementStyle.justifyContent;
+        ghostElement.style.textAlign = currentElementStyle.textAlign;
+        ghostElement.textContent = currentElement.textContent; //현재 드래그중인 element의 textContent복사
 
-      event.dataTransfer.setDragImage(ghostElement, 10, 10); //ghostElement를 dragImage로 설정
+        event.dataTransfer.setDragImage(ghostElement, 10, 10); //ghostElement를 dragImage로 설정
+      }
+    } else {
+      handleCustomDrag({ isDragging: false });
+      console.log(event);
     }
   };
+
   return (
     <>
       <div className={styles.customizer}>
-        <div className={styles.customGNB} draggable onDragStart={handleDrag}>
+        <div
+          className={styles.customGNB}
+          draggable
+          onDragStart={handleDrag}
+          onDragEnd={handleDrag}
+        >
           GNB
         </div>
         <div className={styles.customBody}>
