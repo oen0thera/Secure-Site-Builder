@@ -9,4 +9,5 @@ export type handleCustomDragParam = {
 
 export enum customComponentType {
   GNB = "gnb",
+  CONTENT = "content",
 }
