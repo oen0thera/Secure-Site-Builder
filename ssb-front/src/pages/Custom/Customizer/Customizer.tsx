@@ -8,8 +8,18 @@ import {
 export default function Customizer({ handleCustomDrag }: customizerProps) {
   const ghostRef = useRef<HTMLDivElement>(null);
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
+    let dragComponentType;
+    const dragComponentId = event.currentTarget.id;
+    switch (dragComponentId) {
+      case "gnb":
+        dragComponentType = customComponentType.GNB;
+        break;
+      case "content":
+        dragComponentType = customComponentType.CONTENT;
+        break;
+    }
     if (event.type == "dragstart") {
-      handleCustomDrag({ isDragging: true, type: customComponentType.GNB });
+      handleCustomDrag({ isDragging: true, type: dragComponentType });
       //드래그 구현
       const currentElement = event.currentTarget; //현재 드래그 중인 element
       const ghostElement = ghostRef.current; //드래그 중일때의 ghost element
@@ -29,10 +39,10 @@ export default function Customizer({ handleCustomDrag }: customizerProps) {
         ghostElement.style.textAlign = currentElementStyle.textAlign;
         ghostElement.textContent = currentElement.textContent; //현재 드래그중인 element의 textContent복사
 
-        event.dataTransfer.setDragImage(ghostElement, 10, 10); //ghostElement를 dragImage로 설정
+        event.dataTransfer.setDragImage(ghostElement, 100, 10); //ghostElement를 dragImage로 설정
       }
     } else {
-      handleCustomDrag({ isDragging: false });
+      handleCustomDrag({ isDragging: false, type: dragComponentType });
       console.log(event);
     }
   };
@@ -41,6 +51,7 @@ export default function Customizer({ handleCustomDrag }: customizerProps) {
     <>
       <div className={styles.customizer}>
         <div
+          id={"gnb"}
           className={styles.customGNB}
           draggable
           onDragStart={handleDrag}
@@ -50,9 +61,11 @@ export default function Customizer({ handleCustomDrag }: customizerProps) {
         </div>
         <div className={styles.customBody}>
           <div
+            id={"content"}
             className={styles.customContent}
             draggable
             onDragStart={handleDrag}
+            onDragEnd={handleDrag}
           >
             Content
           </div>
