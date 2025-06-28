@@ -2,10 +2,10 @@ import { useRef } from "react";
 import styles from "./customizer.module.scss";
 import {
   customComponentType,
-  customizerProps,
+  CustomizerProps,
 } from "@/types/components/pages/custom/Custom.type";
 
-export default function Customizer({ handleCustomDrag }: customizerProps) {
+export default function Customizer({ handleCustomDrag }: CustomizerProps) {
   const ghostRef = useRef<HTMLDivElement>(null);
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
     let dragComponentType;
