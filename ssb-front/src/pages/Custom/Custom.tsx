@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import styles from "./custom.module.scss";
 import Customizer from "./Customizer/Customizer";
-import { handleCustomDragParam } from "@/types/components/pages/custom/Custom.type";
+import {
+  ComponentPositions,
+  customComponentType,
+  handleCustomDragParam,
+} from "@/types/components/pages/custom/Custom.type";
+import CustomGnbRenderer from "@/pages/Custom/CustomRenderer/Gnb/CustomGnbRenderer";
+import CustomContentRenderer from "@/pages/Custom/CustomRenderer/Content/CustomContentRenderer";
 export default function Custom() {
-  const [selectedComponentPositions, setSelectedComponentPositions] = useState<{
-    [key: string]: string | null;
-  }>({
-    gnb: null,
-    content: null,
-    sidebar: null,
-    footer: null,
-  });
+  const [selectedComponentPositions, setSelectedComponentPositions] =
+    useState<ComponentPositions>({
+      gnb: null,
+      content: null,
+      sidebar: null,
+      footer: null,
+    });
+  const [isDraggingCreated, setIsDraggingCreated] = useState(false);
   const [onGnbDrag, setOnGnbDrag] = useState(false);
   const [onContentDrag, setOnContentDrag] = useState(false);
 
@@ -26,12 +32,21 @@ export default function Custom() {
         break;
     }
   };
+  const handleCreatedDrag = ({ isDragging, type }: handleCustomDragParam) => {
+    setIsDraggingCreated(isDragging); //현재 dragging하고 있는 컴포넌트가 사용자에 의해 생성된 컴포넌트인지 여부
+    switch (type) {
+      case "gnb":
+        setOnGnbDrag(isDragging);
+        break;
+      case "content":
+        setOnContentDrag(isDragging);
+        break;
+    }
+  };
 
   useEffect(() => {
     console.log(selectedComponentPositions, onGnbDrag, onContentDrag);
   }, [selectedComponentPositions]);
-
-  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {};
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
@@ -44,7 +59,6 @@ export default function Custom() {
         setSelectedComponentPositions((prev) => {
           return { ...prev, gnb: component };
         });
-
         break;
       case "custom_content":
         console.log(event.currentTarget.id);
@@ -57,16 +71,25 @@ export default function Custom() {
     }
     if (!event.currentTarget.title && onGnbDrag) {
       setSelectedComponentPositions((prev) => {
+        if (selectedComponentPositions.gnb !== null && isDraggingCreated) {
+          setIsDraggingCreated(false);
+          return { ...prev };
+        }
         return { ...prev, gnb: null };
       });
-      setOnGnbDrag(false);
     }
     if (!event.currentTarget.title && onContentDrag) {
       setSelectedComponentPositions((prev) => {
+        if (selectedComponentPositions.content !== null && isDraggingCreated) {
+          setIsDraggingCreated(false);
+          return { ...prev };
+        }
+
         return { ...prev, content: null };
       });
-      setOnContentDrag(false);
     }
+    setOnGnbDrag(false);
+    setOnContentDrag(false);
   };
 
   return (
@@ -99,118 +122,19 @@ export default function Custom() {
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleDrop}
           >
-            {/* GNB 파트 */}
-
-            {onGnbDrag ? (
-              <div
-                id={"custom_gnb"}
-                title={"custom_gnb_left"}
-                className={`${styles.custom_gnb} ${styles.left}`}
-                onDragEnter={handleDragEnter}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                }}
-                onDrop={handleDrop}
-              ></div>
-            ) : selectedComponentPositions["gnb"] === "custom_gnb_left" ? (
-              <div
-                id={"custom_gnb"}
-                title={"custom_gnb_left"}
-                className={`${styles.custom_gnb} ${styles.left} ${styles.selected}`}
-                onDragOver={(e) => e.preventDefault()}
-                onDragStart={() => {
-                  console.log("dragStart");
-                  setOnGnbDrag(true);
-                }}
-                draggable
-              >
-                GNB
-              </div>
-            ) : null}
-            {onGnbDrag ? (
-              <div
-                id={"custom_gnb"}
-                title={"custom_gnb_top"}
-                className={`${styles.custom_gnb} ${styles.top}`}
-                onDragEnter={handleDragEnter}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={handleDrop}
-              ></div>
-            ) : selectedComponentPositions["gnb"] === "custom_gnb_top" ? (
-              <div
-                id={"custom_gnb"}
-                title={"custom_gnb_top"}
-                className={`${styles.custom_gnb} ${styles.top} ${styles.selected}`}
-                onDragOver={(e) => e.preventDefault()}
-                onDragStart={() => {
-                  console.log("dragStart");
-                  setOnGnbDrag(true);
-                }}
-                draggable
-              >
-                GNB
-              </div>
-            ) : null}
-            {onGnbDrag ? (
-              <div
-                id={"custom_gnb"}
-                title={"custom_gnb_right"}
-                className={`${styles.custom_gnb} ${styles.right}`}
-                onDragEnter={handleDragEnter}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                }}
-                onDrop={handleDrop}
-              ></div>
-            ) : selectedComponentPositions["gnb"] === "custom_gnb_right" ? (
-              <div
-                id={"custom_gnb"}
-                title={"custom_gnb_right"}
-                className={`${styles.custom_gnb} ${styles.right} ${styles.selected}`}
-                onDragOver={(e) => e.preventDefault()}
-                onDragStart={() => {
-                  console.log("dragStart");
-                  setOnGnbDrag(true);
-                }}
-                draggable
-              >
-                GNB
-              </div>
-            ) : null}
-
-            {/* Content 파트 */}
-            {onContentDrag ? (
-              <div
-                id={"custom_content"}
-                title={"custom_content"}
-                className={`${styles.custom_content}`}
-                onDragEnter={handleDragEnter}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={handleDrop}
-              ></div>
-            ) : selectedComponentPositions["content"] === "custom_content" ? (
-              <div
-                id={"custom_content"}
-                title={"custom_content"}
-                className={`${styles.custom_content} ${styles.selected} ${
-                  selectedComponentPositions["gnb"] === "custom_gnb_right"
-                    ? styles.vertical_expand
-                    : selectedComponentPositions["gnb"] === "custom_gnb_left"
-                    ? styles.vertical_expand
-                    : null
-                }`}
-                onDragOver={(e) => e.preventDefault()}
-                onDragStart={() => {
-                  console.log("dragStart");
-                  setOnContentDrag(true);
-                }}
-                draggable
-              >
-                Content
-              </div>
-            ) : (
-              <div>{}</div>
-            )}
+            <CustomGnbRenderer
+              onGnbDrag={onGnbDrag}
+              handleDrop={handleDrop}
+              handleCreatedDrag={handleCreatedDrag}
+              selectedComponentPositions={selectedComponentPositions}
+            />
+            <CustomContentRenderer
+              onGnbDrag={onGnbDrag}
+              onContentDrag={onContentDrag}
+              handleDrop={handleDrop}
+              handleCreatedDrag={handleCreatedDrag}
+              selectedComponentPositions={selectedComponentPositions}
+            />
           </div>
         </section>
       </div>
