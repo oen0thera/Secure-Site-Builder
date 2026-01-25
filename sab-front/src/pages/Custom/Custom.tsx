@@ -67,8 +67,9 @@ export default function Custom() {
         component = event.currentTarget.title;
         console.log("drop_area:", component);
         setSelectedComponentPositions((prev) => {
-          if (onGnbDrag) return { ...prev, gnb: null };
-          if (onContentDrag) return { ...prev, content: null };
+          if (isDraggingCreated && onGnbDrag) return { ...prev, gnb: null };
+          if (isDraggingCreated && onContentDrag)
+            return { ...prev, content: null };
           return { ...prev };
         });
     }
