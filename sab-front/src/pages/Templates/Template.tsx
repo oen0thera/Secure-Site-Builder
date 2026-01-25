@@ -1,7 +1,7 @@
 import Templates from "@/components/Templates/templates";
 import styles from "./template.module.scss";
 import Icon from "@/components/Icon/Icon";
-import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
+import { IconSize, IconSrc } from "@/types/components/Icon.type";
 import { useRef, useState } from "react";
 
 export default function Template() {

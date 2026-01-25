@@ -1,5 +1,4 @@
 import Banner from "@/components/Banner/Banner";
-import GNB from "@/components/GNB/GNB";
 import styles from "./main.module.scss";
 import Templates from "@/components/Templates/templates";
 

@@ -3,7 +3,6 @@ import {
   RoundedBox,
   Text,
   useScroll,
-  useTexture,
   useVideoTexture,
 } from "@react-three/drei";
 import { useRef, useState } from "react";
@@ -88,7 +87,7 @@ const ShowcaseLeftContent = ({
     }
     setHover(false);
   };
-  const handlePointerClick = (e: ThreeEvent<PointerEvent>) => {
+  const handlePointerClick = (_: ThreeEvent<PointerEvent>) => {
     setIsClicked(true);
   };
 
@@ -98,7 +97,7 @@ const ShowcaseLeftContent = ({
   }
 
   // 컨텐트 클릭시 smooth camera lookat 및 zoom-in, 페이지 전환
-  useFrame((state) => {
+  useFrame((_state) => {
     if (isClicked) {
       if (meshRef.current) {
         const currCameraDirection = new Three.Vector3(); //현재 카메라가 보고 있는 방향 벡터
@@ -138,23 +137,23 @@ const ShowcaseLeftContent = ({
   });
 
   // SNB 클릭시 smooth 스크롤 및 Fade-in/Fade-out 설정
-  useFrame((state) => {
+  useFrame((_state) => {
     materialRef.current.transparent = true;
     const textMat = textRef.current.material as Three.Material;
     const subTextMat = subTextRef.current.material as Three.Material;
     textMat.transparent = true;
-    const camera = new Three.Vector3(0, 0, -10);
-    const cameraPos = new Three.Vector3(-state.pointer.x, state.pointer.y, 0);
-    const pointerPos = camera.lerp(cameraPos, 0.01);
+    // const camera = new Three.Vector3(0, 0, -10);
+    // const cameraPos = new Three.Vector3(-state.pointer.x, state.pointer.y, 0);
+    //const pointerPos = camera.lerp(cameraPos, 0.01);
     if (meshRef.current) {
-      let scrollPosition = 0;
+      //const scrollPosition = 0;
       meshRef.current.visible = true;
       textRef.current.visible = true;
 
       if (materialRef.current.opacity < 1 && !isClicked)
         materialRef.current.opacity += 0.05;
       const radius = 8;
-      const baseX = position[0];
+      //const baseX = position[0];
       const baseZ = position[2];
 
       const angle = -scroll.offset * Math.PI;

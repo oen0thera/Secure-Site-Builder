@@ -1,4 +1,3 @@
-import React from "react";
 import "./global.css";
 import { Route, Routes } from "react-router-dom";
 import Main from "@/pages/Main/Main";
@@ -20,7 +19,7 @@ function App() {
         <Route path="/templates" element={<Template />} />
 
         <Route path="/login" element={<Login />} />
-        <Route path="/custom" element={<Custom/>}/>
+        <Route path="/custom" element={<Custom />} />
       </Routes>
     </div>
   );

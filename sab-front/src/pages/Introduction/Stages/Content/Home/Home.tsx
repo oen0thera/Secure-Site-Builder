@@ -1,8 +1,8 @@
 import * as Three from "three";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 
-import { OrbitControls, ScrollControls, useScroll } from "@react-three/drei";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { ScrollControls } from "@react-three/drei";
+import { useEffect, useRef, useState } from "react";
 
 import styles from "./home.module.scss";
 import { HomeProps } from "@/types/components/pages/introduction/Content/Home.type";
@@ -52,7 +52,7 @@ export default function Home({ scroll, nextStage }: HomeProps) {
   const [clickStage, setClickStage] = useState(false);
   const [scrollPoint, setScrollPoint] = useState(1);
   const handleStage = () => {
-    let stageTransition: NodeJS.Timeout | null = null;
+    let stageTransition: ReturnType<typeof setTimeout> | null = null;
 
     if (scroll === 1 && !clickStage) {
       nextStage(false);

@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import { Vector3 } from "three";
 
 export type ShowcaseProps = {
   scroll: number;
