@@ -7,4 +7,8 @@ img {
   &.white {
     filter: invert(1);
   }
+  &.red {
+    filter: invert(27%) sepia(91%) saturate(7493%) hue-rotate(357deg)
+      brightness(95%) contrast(105%);
+  }
 }

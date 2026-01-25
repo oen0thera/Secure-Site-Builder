@@ -7,6 +7,8 @@ import {
 } from "@/types/components/pages/custom/Custom.type";
 import CustomGnbRenderer from "@/pages/Custom/CustomRenderer/Gnb/CustomGnbRenderer";
 import CustomContentRenderer from "@/pages/Custom/CustomRenderer/Content/CustomContentRenderer";
+import Icon from "@/components/Icon/Icon";
+import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 export default function Custom() {
   const [selectedComponentPositions, setSelectedComponentPositions] =
     useState<ComponentPositions>({
@@ -20,13 +22,11 @@ export default function Custom() {
   const [onContentDrag, setOnContentDrag] = useState(false);
 
   const handleCustomDrag = ({ isDragging, type }: handleCustomDragParam) => {
-    console.log(isDragging, type);
     switch (type) {
       case "gnb":
         setOnGnbDrag(isDragging);
         break;
       case "content":
-        console.log(isDragging);
         setOnContentDrag(isDragging);
         break;
     }
@@ -49,44 +49,47 @@ export default function Custom() {
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    console.log(event.currentTarget);
     let component = "";
     switch (event.currentTarget.id) {
       case "custom_gnb":
-        console.log(event.currentTarget.id);
         component = event.currentTarget.title;
         setSelectedComponentPositions((prev) => {
           return { ...prev, gnb: component };
         });
         break;
       case "custom_content":
-        console.log(event.currentTarget.id);
         component = event.currentTarget.title;
         setSelectedComponentPositions((prev) => {
           return { ...prev, content: component };
         });
-
         break;
-    }
-    if (!event.currentTarget.title && onGnbDrag) {
-      setSelectedComponentPositions((prev) => {
-        if (selectedComponentPositions.gnb !== null && isDraggingCreated) {
-          setIsDraggingCreated(false);
+      case "drop_area":
+        component = event.currentTarget.title;
+        console.log("drop_area:", component);
+        setSelectedComponentPositions((prev) => {
+          if (onGnbDrag) return { ...prev, gnb: null };
+          if (onContentDrag) return { ...prev, content: null };
           return { ...prev };
-        }
-        return { ...prev, gnb: null };
-      });
+        });
     }
-    if (!event.currentTarget.title && onContentDrag) {
-      setSelectedComponentPositions((prev) => {
-        if (selectedComponentPositions.content !== null && isDraggingCreated) {
-          setIsDraggingCreated(false);
-          return { ...prev };
-        }
-
-        return { ...prev, content: null };
-      });
-    }
+    // if (!event.currentTarget.title && onGnbDrag) {
+    //   setSelectedComponentPositions((prev) => {
+    //     if (selectedComponentPositions.gnb !== null && isDraggingCreated) {
+    //       setIsDraggingCreated(false);
+    //       return { ...prev };
+    //     }
+    //     return { ...prev, gnb: null };
+    //   });
+    // }
+    // if (!event.currentTarget.title && onContentDrag) {
+    //   setSelectedComponentPositions((prev) => {
+    //     if (selectedComponentPositions.content !== null && isDraggingCreated) {
+    //       setIsDraggingCreated(false);
+    //       return { ...prev };
+    //     }
+    //     return { ...prev, content: null };
+    //   });
+    // }
     setOnGnbDrag(false);
     setOnContentDrag(false);
   };
@@ -95,11 +98,16 @@ export default function Custom() {
     <>
       {(onGnbDrag || onContentDrag) && (
         <div
+          id={"drop_area"}
           className={styles.preventGnbDrop}
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
         >
-          NO GNB
+          <Icon
+            size={IconSize.SMALL}
+            src={IconSrc.TRASHCAN}
+            color={IconColor.RED}
+          />
         </div>
       )}
       <div
