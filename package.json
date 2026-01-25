@@ -1,6 +1,10 @@
 {
   "dependencies": {
-    "create-react-app": "^5.1.0",
-    "npx": "^10.2.2"
+    "create-react-app": "^1.2.1",
+    "npx": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "vite": "^7.3.1"
   }
 }
