@@ -1,7 +1,7 @@
 import Image from "@/components/Image/Image";
 import styles from "./about.module.scss";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/Button/Button";
 import { ButtonSize, ButtonType } from "@/types/components/Button.type";
 import Icon from "@/components/Icon/Icon";
@@ -11,7 +11,7 @@ export default function About() {
   const [scrollMarginTop, setScrollMarginTop] = useState(200);
   const [toggleMenu, setToggleMenu] = useState(false);
 
-  const bannerRef = useRef<HTMLVideoElement>(null);
+  //const bannerRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     const scrollEvent = (e: WheelEvent) => {

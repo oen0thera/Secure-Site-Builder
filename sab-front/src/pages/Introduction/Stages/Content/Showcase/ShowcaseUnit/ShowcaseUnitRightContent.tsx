@@ -1,8 +1,8 @@
 // 사용되지 않음
 
-import { ShowcaseUnitArgs } from "@/types/components/pages/introduction/Content/Showcase.type";
+//import { ShowcaseUnitArgs } from "@/types/components/pages/introduction/Content/Showcase.type";
 
-function RightContent({ position }: ShowcaseUnitArgs) {}
+//function RightContent({ position }: ShowcaseUnitArgs) {}
 //     const meshRef = useRef<Three.Mesh>(null!);
 
 //     const materialRef = useRef<Three.Material>(null!);

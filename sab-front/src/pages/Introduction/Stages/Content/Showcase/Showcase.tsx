@@ -1,36 +1,12 @@
-import * as Three from "three";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { CubicBezierCurve3, Vector3 } from "three";
-import {
-  OrbitControls,
-  RoundedBox,
-  Scroll,
-  ScrollControls,
-  ScrollControlsProps,
-  ScrollControlsState,
-  Text,
-  useScroll,
-  useVideoTexture,
-} from "@react-three/drei";
-import {
-  createRef,
-  Dispatch,
-  forwardRef,
-  FragmentProps,
-  RefObject,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { Canvas } from "@react-three/fiber";
+import { Scroll, ScrollControls } from "@react-three/drei";
+import { useEffect, useState } from "react";
 
 import styles from "./showcase.module.scss";
 import {
   ShowcaseProps,
   ShowcaseUnitEnum,
 } from "@/types/components/pages/introduction/Content/Showcase.type";
-import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
 import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 import Button from "@/components/Button/Button";
@@ -53,16 +29,15 @@ export default function Showcase({
   const [pointerHover, setPointerHover] = useState(false);
 
   const page = 4;
-  const content = Array(page)
+  const items = Array(page)
     .fill(undefined, 0, page)
-    .map((item, i) => {
+    .map((_, i) => {
       let type;
-      let content;
+      let _content;
       switch (i) {
         case 0:
           type = ShowcaseUnitEnum.ABOUT;
-          content = `SSB는 최신 보안 표준을 기반으로 한 웹사이트 빌딩 서비스를 제공합니다.
-
+          _content = `SSB는 최신 보안 표준을 기반으로 한 웹사이트 빌딩 서비스를 제공합니다.
 개인정보 보호, 데이터 암호화, 침입 탐지 및 예방 체계를 기본으로 하여, 클라이언트와 사용자의 신뢰를 쌓는 디지털 환경을 만듭니다.
 
 보안은 선택이 아니라 필수이며, 다양한 위협상황에서 저희는 그 선두주자로써 활약하고자 합니다.
@@ -71,7 +46,7 @@ export default function Showcase({
           break;
         case 1:
           type = ShowcaseUnitEnum.WORK;
-          content = `FinSafe 보험사 웹 포털 리뉴얼
+          _content = `FinSafe 보험사 웹 포털 리뉴얼
 🔐 HTTPS 적용 / OWASP 기준 준수 / 로그인 2FA 적용
 📍 결과: 월간 로그인 보안 사고 0건 유지 중
 
@@ -89,7 +64,7 @@ eCommX 보안 쇼핑몰 구축
           break;
         case 2:
           type = ShowcaseUnitEnum.IDEA;
-          content = `[2025 보안 웹 개발 워크샵]
+          _content = `[2025 보안 웹 개발 워크샵]
 📅 일시: 2025년 7월 12일 (토) 
           오후 2시 ~ 6시
 📍 장소: 서울 강남구 테헤란로 420, 5F
@@ -102,7 +77,7 @@ eCommX 보안 쇼핑몰 구축
           break;
         default:
           type = ShowcaseUnitEnum.CONTACT;
-          content = `📧 Email: support@securebuild.dev
+          _content = `📧 Email: support@securebuild.dev
 
 📞 전화: 02-1234-5678
 
@@ -112,6 +87,9 @@ eCommX 보안 쇼핑몰 구축
 
 🔒 보안 협업 제휴 문의: biz@securebuild.dev`;
       }
+
+      // 수정 이후 content 추가 26.01.25
+      void _content;
       return (
         <ShowcaseLeftContent
           key={i}
@@ -209,7 +187,7 @@ eCommX 보안 쇼핑몰 구축
 
             <ambientLight intensity={2.5} />
             <pointLight position={[10, 10, 10]} />
-            {content}
+            {items}
             <ShowcasePlane />
             <gridHelper args={[10, 10]} />
             <axesHelper args={[8]} />

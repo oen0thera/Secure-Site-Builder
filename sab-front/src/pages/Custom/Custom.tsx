@@ -3,7 +3,6 @@ import styles from "./custom.module.scss";
 import Customizer from "./Customizer/Customizer";
 import {
   ComponentPositions,
-  customComponentType,
   handleCustomDragParam,
 } from "@/types/components/pages/custom/Custom.type";
 import CustomGnbRenderer from "@/pages/Custom/CustomRenderer/Gnb/CustomGnbRenderer";

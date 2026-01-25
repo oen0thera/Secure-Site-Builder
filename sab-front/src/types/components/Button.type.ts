@@ -1,6 +1,6 @@
 export type ButtonProps = {
   size: ButtonSize;
-  content: String;
+  content: string;
   type?: ButtonType;
   onClick: () => void;
 };
