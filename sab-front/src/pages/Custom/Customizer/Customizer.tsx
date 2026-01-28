@@ -10,12 +10,16 @@ export default function Customizer({ handleCustomDrag }: CustomizerProps) {
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
     let dragComponentType;
     const dragComponentId = event.currentTarget.id;
+    console.log("dragComponentId:", dragComponentId);
     switch (dragComponentId) {
       case "gnb":
         dragComponentType = customComponentType.GNB;
         break;
       case "content":
         dragComponentType = customComponentType.CONTENT;
+        break;
+      case "sidebar":
+        dragComponentType = customComponentType.SIDEBAR;
         break;
     }
     if (event.type == "dragstart") {
@@ -70,6 +74,7 @@ export default function Customizer({ handleCustomDrag }: CustomizerProps) {
             Content
           </div>
           <div
+            id={"sidebar"}
             className={styles.customSidebar}
             draggable
             onDragStart={handleDrag}
