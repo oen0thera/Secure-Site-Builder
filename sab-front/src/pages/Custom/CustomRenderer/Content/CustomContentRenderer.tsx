@@ -7,6 +7,7 @@ import {
 export default function CustomContentRenderer({
   onGnbDrag,
   onContentDrag,
+  onSidebarDrag,
   handleDrop,
   selectedComponentPositions,
   handleCreatedDrag,
@@ -18,14 +19,17 @@ export default function CustomContentRenderer({
           id={"custom_content"}
           title={"custom_content"}
           className={`${styles.custom_content} ${styles.selected} ${
-            selectedComponentPositions["gnb"] === "custom_gnb_right"
-              ? onGnbDrag
-                ? styles.vertical_changable
-                : styles.vertical_expand
-              : selectedComponentPositions["gnb"] === "custom_gnb_left"
-              ? onGnbDrag
-                ? styles.vertical_changable
-                : styles.vertical_expand
+            selectedComponentPositions["sidebar"] !== "custom_sidebar_bottom" &&
+            selectedComponentPositions["sidebar"] !== "custom_sidebar_top"
+              ? selectedComponentPositions["gnb"] === "custom_gnb_right"
+                ? onGnbDrag || onSidebarDrag
+                  ? styles.vertical_changable
+                  : styles.vertical_expand
+                : selectedComponentPositions["gnb"] === "custom_gnb_left"
+                ? onGnbDrag || onSidebarDrag
+                  ? styles.vertical_changable
+                  : styles.vertical_expand
+                : null
               : null
           }`}
           onDragOver={(e) => e.preventDefault()}
