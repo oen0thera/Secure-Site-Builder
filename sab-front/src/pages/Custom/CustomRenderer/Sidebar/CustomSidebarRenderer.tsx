@@ -6,7 +6,6 @@ import {
 
 export default function CustomSidebarRenderer({
   onGnbDrag,
-  onContentDrag,
   onSidebarDrag,
   handleDrop,
   selectedComponentPositions,
