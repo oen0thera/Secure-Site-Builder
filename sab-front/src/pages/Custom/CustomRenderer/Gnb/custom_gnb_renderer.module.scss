@@ -9,7 +9,8 @@
 
   &.top {
     margin: 0 auto;
-    grid-column: 2;
+    grid-row: 1;
+    grid-column: 2/3;
   }
   &.left {
     width: 2em;
