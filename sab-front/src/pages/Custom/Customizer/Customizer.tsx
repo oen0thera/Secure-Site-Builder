@@ -21,6 +21,9 @@ export default function Customizer({ handleCustomDrag }: CustomizerProps) {
       case "sidebar":
         dragComponentType = customComponentType.SIDEBAR;
         break;
+      case "footer":
+        dragComponentType = customComponentType.FOOTER;
+        break;
     }
     if (event.type == "dragstart") {
       handleCustomDrag({ isDragging: true, type: dragComponentType });
@@ -82,7 +85,12 @@ export default function Customizer({ handleCustomDrag }: CustomizerProps) {
             Side bar
           </div>
         </div>
-        <div className={styles.customFooter} draggable onDragStart={handleDrag}>
+        <div
+          id={"footer"}
+          className={styles.customFooter}
+          draggable
+          onDragStart={handleDrag}
+        >
           Footer
         </div>
         <div

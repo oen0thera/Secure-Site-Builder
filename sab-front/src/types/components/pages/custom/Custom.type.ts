@@ -36,6 +36,13 @@ export type CustomSidebarRendererProps = {
   handleCreatedDrag: (handleCustomDragParam: handleCustomDragParam) => void;
 };
 
+export type CustomFooterRendererProps = {
+  onFooterDrag: boolean;
+  handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
+  selectedComponentPositions: ComponentPositions;
+  handleCreatedDrag: (handleCustomDragParam: handleCustomDragParam) => void;
+};
+
 export type handleCustomDragParam = {
   isDragging: boolean;
   type?: customComponentType;

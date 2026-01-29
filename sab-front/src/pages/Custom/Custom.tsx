@@ -10,6 +10,7 @@ import CustomContentRenderer from "@/pages/Custom/CustomRenderer/Content/CustomC
 import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 import CustomSidebarRenderer from "@/pages/Custom/CustomRenderer/Sidebar/CustomSidebarRenderer";
+import CustomFooterRenderer from "@/pages/Custom/CustomRenderer/Footer/CustomFooterRenderer";
 export default function Custom() {
   const [selectedComponentPositions, setSelectedComponentPositions] =
     useState<ComponentPositions>({
@@ -22,6 +23,7 @@ export default function Custom() {
   const [onGnbDrag, setOnGnbDrag] = useState(false);
   const [onContentDrag, setOnContentDrag] = useState(false);
   const [onSidebarDrag, setOnSidebarDrag] = useState(false);
+  const [onFooterDrag, setOnFooterDrag] = useState(false);
 
   const handleCustomDrag = ({ isDragging, type }: handleCustomDragParam) => {
     switch (type) {
@@ -34,10 +36,12 @@ export default function Custom() {
       case "sidebar":
         setOnSidebarDrag(isDragging);
         break;
+      case "footer":
+        setOnFooterDrag(isDragging);
+        break;
     }
   };
   const handleCreatedDrag = ({ isDragging, type }: handleCustomDragParam) => {
-    console.log("handleCreatedDrag 호출됨:", isDragging, type);
     setIsDraggingCreated(isDragging); //현재 dragging하고 있는 컴포넌트가 사용자에 의해 생성된 컴포넌트인지 여부
     switch (type) {
       case "gnb":
@@ -49,6 +53,9 @@ export default function Custom() {
       case "sidebar":
         setOnSidebarDrag(isDragging);
         break;
+      case "footer":
+        setOnFooterDrag(isDragging);
+        break;
     }
   };
 
@@ -56,30 +63,56 @@ export default function Custom() {
     console.log(selectedComponentPositions, onGnbDrag, onContentDrag);
   }, [selectedComponentPositions]);
 
+  const validateDuplicateDrop = (component: string) => {
+    const splitComponent = component.split("_");
+    const position = splitComponent[splitComponent.length - 1];
+    const validation = Object.values(selectedComponentPositions).every(
+      (selectedComponent) => {
+        if (selectedComponent?.includes(position)) {
+          return false;
+        }
+        return true;
+      }
+    );
+    return validation;
+  };
+
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    let component = "";
+    let component = event.currentTarget.title;
+    if (validateDuplicateDrop(component) === false) {
+      alert(
+        "이미 배치된 위치입니다. 기존 요소를 삭제하시거나 다른 위치를 선택해주세요."
+      );
+      setOnGnbDrag(false);
+      setOnContentDrag(false);
+      setOnSidebarDrag(false);
+      setOnFooterDrag(false);
+      return;
+    }
+
     switch (event.currentTarget.id) {
       case "custom_gnb":
-        component = event.currentTarget.title;
         setSelectedComponentPositions((prev) => {
           return { ...prev, gnb: component };
         });
         break;
       case "custom_content":
-        component = event.currentTarget.title;
         setSelectedComponentPositions((prev) => {
           return { ...prev, content: component };
         });
         break;
       case "custom_sidebar":
-        component = event.currentTarget.title;
         setSelectedComponentPositions((prev) => {
           return { ...prev, sidebar: component };
         });
         break;
+      case "custom_footer":
+        setSelectedComponentPositions((prev) => {
+          return { ...prev, footer: component };
+        });
+        break;
       case "drop_area":
-        component = event.currentTarget.title;
         console.log("drop_area:", component);
         setSelectedComponentPositions((prev) => {
           if (isDraggingCreated && onGnbDrag) return { ...prev, gnb: null };
@@ -87,6 +120,8 @@ export default function Custom() {
             return { ...prev, content: null };
           if (isDraggingCreated && onSidebarDrag)
             return { ...prev, sidebar: null };
+          if (isDraggingCreated && onFooterDrag)
+            return { ...prev, footer: null };
           return { ...prev };
         });
     }
@@ -111,6 +146,7 @@ export default function Custom() {
     setOnGnbDrag(false);
     setOnContentDrag(false);
     setOnSidebarDrag(false);
+    setOnFooterDrag(false);
   };
 
   return (
@@ -118,6 +154,7 @@ export default function Custom() {
       {(onGnbDrag || onContentDrag || onSidebarDrag) && (
         <div
           id={"drop_area"}
+          title={"drop_area"}
           className={styles.preventGnbDrop}
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
@@ -166,6 +203,12 @@ export default function Custom() {
               onGnbDrag={onGnbDrag}
               onContentDrag={onContentDrag}
               onSidebarDrag={onSidebarDrag}
+              handleDrop={handleDrop}
+              handleCreatedDrag={handleCreatedDrag}
+              selectedComponentPositions={selectedComponentPositions}
+            />
+            <CustomFooterRenderer
+              onFooterDrag={onFooterDrag}
               handleDrop={handleDrop}
               handleCreatedDrag={handleCreatedDrag}
               selectedComponentPositions={selectedComponentPositions}
