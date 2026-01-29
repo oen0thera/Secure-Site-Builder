@@ -10,6 +10,7 @@ import CustomContentRenderer from "@/pages/Custom/CustomRenderer/Content/CustomC
 import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 import CustomSidebarRenderer from "@/pages/Custom/CustomRenderer/Sidebar/CustomSidebarRenderer";
+import CustomFooterRenderer from "@/pages/Custom/CustomRenderer/Footer/CustomFooterRenderer";
 export default function Custom() {
   const [selectedComponentPositions, setSelectedComponentPositions] =
     useState<ComponentPositions>({
@@ -22,6 +23,7 @@ export default function Custom() {
   const [onGnbDrag, setOnGnbDrag] = useState(false);
   const [onContentDrag, setOnContentDrag] = useState(false);
   const [onSidebarDrag, setOnSidebarDrag] = useState(false);
+  const [onFooterDrag, setOnFooterDrag] = useState(false);
 
   const handleCustomDrag = ({ isDragging, type }: handleCustomDragParam) => {
     switch (type) {
@@ -33,6 +35,9 @@ export default function Custom() {
         break;
       case "sidebar":
         setOnSidebarDrag(isDragging);
+        break;
+      case "footer":
+        setOnFooterDrag(isDragging);
         break;
     }
   };
@@ -47,6 +52,9 @@ export default function Custom() {
         break;
       case "sidebar":
         setOnSidebarDrag(isDragging);
+        break;
+      case "footer":
+        setOnFooterDrag(isDragging);
         break;
     }
   };
@@ -79,7 +87,7 @@ export default function Custom() {
       setOnGnbDrag(false);
       setOnContentDrag(false);
       setOnSidebarDrag(false);
-
+      setOnFooterDrag(false);
       return;
     }
 
@@ -99,6 +107,11 @@ export default function Custom() {
           return { ...prev, sidebar: component };
         });
         break;
+      case "custom_footer":
+        setSelectedComponentPositions((prev) => {
+          return { ...prev, footer: component };
+        });
+        break;
       case "drop_area":
         console.log("drop_area:", component);
         setSelectedComponentPositions((prev) => {
@@ -107,6 +120,8 @@ export default function Custom() {
             return { ...prev, content: null };
           if (isDraggingCreated && onSidebarDrag)
             return { ...prev, sidebar: null };
+          if (isDraggingCreated && onFooterDrag)
+            return { ...prev, footer: null };
           return { ...prev };
         });
     }
@@ -131,6 +146,7 @@ export default function Custom() {
     setOnGnbDrag(false);
     setOnContentDrag(false);
     setOnSidebarDrag(false);
+    setOnFooterDrag(false);
   };
 
   return (
@@ -187,6 +203,12 @@ export default function Custom() {
               onGnbDrag={onGnbDrag}
               onContentDrag={onContentDrag}
               onSidebarDrag={onSidebarDrag}
+              handleDrop={handleDrop}
+              handleCreatedDrag={handleCreatedDrag}
+              selectedComponentPositions={selectedComponentPositions}
+            />
+            <CustomFooterRenderer
+              onFooterDrag={onFooterDrag}
               handleDrop={handleDrop}
               handleCreatedDrag={handleCreatedDrag}
               selectedComponentPositions={selectedComponentPositions}
