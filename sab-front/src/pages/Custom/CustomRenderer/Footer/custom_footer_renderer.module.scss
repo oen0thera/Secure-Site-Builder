@@ -1,4 +1,4 @@
-.custom_gnb {
+.custom_footer {
   width: 100%;
   font-size: 2em;
   height: 2em;
@@ -6,10 +6,12 @@
   border: 1px dashed rgb(71, 71, 71);
   background-color: rgb(211, 208, 208);
   position: relative;
+  word-break: break-word;
+  text-align: center;
 
-  &.top {
+  &.bottom {
     margin: 0 auto;
-    grid-row: 1;
+    grid-row: 3;
     grid-column: 2/3;
   }
   &.left {
