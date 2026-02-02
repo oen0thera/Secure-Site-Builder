@@ -7,10 +7,13 @@ import {
 } from "@/types/components/pages/custom/Custom.type";
 import CustomGnbRenderer from "@/pages/Custom/CustomRenderer/Gnb/CustomGnbRenderer";
 import CustomContentRenderer from "@/pages/Custom/CustomRenderer/Content/CustomContentRenderer";
-import Icon from "@/components/Icon/Icon";
-import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 import CustomSidebarRenderer from "@/pages/Custom/CustomRenderer/Sidebar/CustomSidebarRenderer";
 import CustomFooterRenderer from "@/pages/Custom/CustomRenderer/Footer/CustomFooterRenderer";
+import Icon from "@/components/Icon/Icon";
+import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
+import Button from "@/components/Button/Button";
+import { ButtonSize } from "@/types/components/Button.type";
+
 export default function Custom() {
   const [selectedComponentPositions, setSelectedComponentPositions] =
     useState<ComponentPositions>({
@@ -24,6 +27,8 @@ export default function Custom() {
   const [onContentDrag, setOnContentDrag] = useState(false);
   const [onSidebarDrag, setOnSidebarDrag] = useState(false);
   const [onFooterDrag, setOnFooterDrag] = useState(false);
+
+  const STAGE_LIST = ["SELECT", "CUSTOMIZE"];
 
   const handleCustomDrag = ({ isDragging, type }: handleCustomDragParam) => {
     switch (type) {
@@ -171,6 +176,12 @@ export default function Custom() {
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
+        <section className={styles.stage_section}>
+          <div className={styles.stage_components}>
+            <Button size={ButtonSize.SMALL} content="다음" onClick={() => {}} />
+          </div>
+        </section>
+
         <section className={styles.custom_section}>
           <div className={styles.custom_components}>
             <h2>Customizer</h2>
