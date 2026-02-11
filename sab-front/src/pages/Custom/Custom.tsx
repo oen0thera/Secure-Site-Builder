@@ -13,15 +13,11 @@ import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 import Button from "@/components/Button/Button";
 import { ButtonSize } from "@/types/components/Button.type";
+import useCustomStore from "@/store/useCustomStore";
 
 export default function Custom() {
-  const [selectedComponentPositions, setSelectedComponentPositions] =
-    useState<ComponentPositions>({
-      gnb: null,
-      content: null,
-      sidebar: null,
-      footer: null,
-    });
+  const { selectedComponentPositions, setSelectedComponentPositions } =
+    useCustomStore();
   const [isDraggingCreated, setIsDraggingCreated] = useState(false);
   const [onGnbDrag, setOnGnbDrag] = useState(false);
   const [onContentDrag, setOnContentDrag] = useState(false);
