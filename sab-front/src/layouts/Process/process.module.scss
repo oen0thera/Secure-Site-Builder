@@ -1,0 +1,22 @@
+.stage_section {
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  gap: 2em;
+  position: fixed;
+  z-index: 10;
+}
+.stage_components {
+  width: 100%;
+  background: linear-gradient(135deg, #2021249a, #333333);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 1em;
+  padding: 1.2em;
+}

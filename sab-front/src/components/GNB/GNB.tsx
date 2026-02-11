@@ -3,8 +3,10 @@ import styles from "./gnb.module.scss";
 import { ImageSize, ImageSrc, ImageType } from "@/types/components/Image.type";
 import Button from "../Button/Button";
 import { ButtonSize } from "@/types/components/Button.type";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 export default function GNB() {
+  const navigate = useNavigate();
   return (
     <div className={styles.gnb}>
       <a href={"/"}>
@@ -35,7 +37,9 @@ export default function GNB() {
             <Button
               size={ButtonSize.SMALL}
               content={"무료로 시작하기"}
-              onClick={() => {}}
+              onClick={() => {
+                navigate("/process");
+              }}
             />
           </li>
         </ul>
