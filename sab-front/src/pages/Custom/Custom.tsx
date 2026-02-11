@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./custom.module.scss";
 import Customizer from "./Customizer/Customizer";
-import {
-  ComponentPositions,
-  handleCustomDragParam,
-} from "@/types/components/pages/custom/Custom.type";
+import { handleCustomDragParam } from "@/types/components/pages/custom/Custom.type";
 import CustomGnbRenderer from "@/pages/Custom/CustomRenderer/Gnb/CustomGnbRenderer";
 import CustomContentRenderer from "@/pages/Custom/CustomRenderer/Content/CustomContentRenderer";
 import CustomSidebarRenderer from "@/pages/Custom/CustomRenderer/Sidebar/CustomSidebarRenderer";
@@ -23,8 +20,6 @@ export default function Custom() {
   const [onContentDrag, setOnContentDrag] = useState(false);
   const [onSidebarDrag, setOnSidebarDrag] = useState(false);
   const [onFooterDrag, setOnFooterDrag] = useState(false);
-
-  const STAGE_LIST = ["SELECT", "CUSTOMIZE"];
 
   const handleCustomDrag = ({ isDragging, type }: handleCustomDragParam) => {
     switch (type) {
