@@ -11,8 +11,6 @@ import CustomSidebarRenderer from "@/pages/Process/Custom/CustomRenderer/Sidebar
 import CustomFooterRenderer from "@/pages/Process/Custom/CustomRenderer/Footer/CustomFooterRenderer";
 import Icon from "@/components/Icon/Icon";
 import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
-import Button from "@/components/Button/Button";
-import { ButtonSize } from "@/types/components/Button.type";
 
 export default function Custom() {
   const [selectedComponentPositions, setSelectedComponentPositions] =
