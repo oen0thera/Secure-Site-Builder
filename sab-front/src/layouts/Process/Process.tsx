@@ -3,6 +3,7 @@ import Button from "@/components/Button/Button";
 import { ReactElement, useState } from "react";
 import { ButtonSize } from "@/types/components/Button.type";
 import styles from "./process.module.scss";
+import Detail from "@/pages/Process/Detail/Detail";
 
 const PROCESS_LIST: (keyof typeof ProcessEnum)[] = ["CUSTOM", "DETAIL"];
 
@@ -13,7 +14,7 @@ enum ProcessEnum {
 
 const ProcessItem: Record<ProcessEnum, ReactElement> = {
   custom: <Custom />,
-  detail: <></>,
+  detail: <Detail />,
 };
 
 export default function Process() {
