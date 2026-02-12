@@ -1,0 +1,31 @@
+.gnb {
+  position: sticky;
+  background-color: white;
+  display: flex;
+  padding: 1em;
+  &.top {
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2em;
+  }
+}
+
+.link_section {
+  display: flex;
+  &.top {
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+  }
+}
+
+.user_section {
+  display: flex;
+  &.top {
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+  }
+}
