@@ -7,7 +7,6 @@ interface DetailContentProps {
 
 export default function DetailContent({
   position = "top",
-  height = 100,
 }: DetailContentProps) {
   return (
     <div
