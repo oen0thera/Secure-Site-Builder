@@ -21,12 +21,13 @@ export default function DetailInputs({
       case "gnb":
         return (
           <div>
+            {position}
             {inputs &&
               Object.entries(inputs).map((item) => {
                 return (
                   <div className={styles.input_container}>
                     <div className={styles.input_label}>{item[0]}</div>
-                    <div className={styles.input_value}>{item[1]}</div>
+                    <input type="text" />
                   </div>
                 );
               })}
