@@ -8,6 +8,9 @@ export default function Icon({
 }: IconProps) {
   let iconSize;
   switch (size) {
+    case IconSize.EXTRA_SMALL_SMALL:
+      iconSize = 12;
+      break;
     case IconSize.EXTRA_SMALL:
       iconSize = 20;
       break;
@@ -17,15 +20,21 @@ export default function Icon({
     default:
       iconSize = 100;
   }
+
+  const getOptions = () => {
+    let transforms = [];
+    if (options?.inverted) transforms.push("rotate(-180deg)");
+    if (options?.pivoted) transforms.push("rotate(-90deg)");
+
+    return transforms.length > 0 ? { transform: transforms.join(" ") } : {};
+  };
   return (
     <div className={styles.icon}>
       <img
         className={styles[color]}
         src={`/icons/${src}`}
         width={iconSize}
-        style={
-          options?.inverted ? { transform: "rotateY(-180deg)" } : undefined
-        }
+        style={getOptions()}
       />
     </div>
   );

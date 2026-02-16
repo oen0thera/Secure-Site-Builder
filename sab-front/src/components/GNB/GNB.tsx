@@ -25,7 +25,6 @@ export default function GNB() {
           <li>
             <Link to={"/templates"}>템플릿</Link>
           </li>
-          <li>요금</li>
           <li>고객지원</li>
         </ul>
         <ul className={styles.login_bar}>

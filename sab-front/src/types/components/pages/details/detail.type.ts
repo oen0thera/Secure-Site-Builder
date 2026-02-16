@@ -14,8 +14,8 @@ export const DETAIL_POSITION = {
 
 export const DETAIL_GNB_INPUTS = {
   logo: "",
-  linkSection: [] as string[],
-  userSection: [] as string[],
+  linkSection: ["소개", "요금", "고객지원"] as string[],
+  userSection: ["로그인", "회원가입"] as string[],
 } as const;
 
 export type DetailType = (typeof DETAIL_TYPE)[keyof typeof DETAIL_TYPE];
