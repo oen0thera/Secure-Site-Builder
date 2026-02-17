@@ -53,4 +53,9 @@
     background-color: white;
     box-shadow: 0 0px 8px 0px #00000052;
   }
+
+  &.stretch {
+    width: 100% !important;
+    align-self: stretch;
+  }
 }

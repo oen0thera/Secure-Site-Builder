@@ -16,6 +16,8 @@ export enum IconSrc {
   TRASHCAN = "trash-solid.svg",
   EDIT = "pen-solid.svg",
   IMAGE = "image-solid.svg",
+  ADD = "plus-solid.svg",
+  DELETE = "minus-solid.svg",
 }
 export enum IconColor {
   WHITE = "white",
