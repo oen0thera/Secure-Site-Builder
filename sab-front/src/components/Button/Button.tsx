@@ -1,8 +1,4 @@
-import {
-  ButtonProps,
-  ButtonSize,
-  ButtonType,
-} from "@/types/components/Button.type";
+import { ButtonProps, ButtonType } from "@/types/components/Button.type";
 import styles from "./button.module.scss";
 
 export default function Button({

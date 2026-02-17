@@ -2,8 +2,6 @@ import Icon from "@/components/Icon/Icon";
 import { IconSize, IconSrc, IconColor } from "@/types/components/Icon.type";
 import styles from "./detail_inputs_dropdown.module.scss";
 import { useState } from "react";
-import Button from "@/components/Button/Button";
-import { ButtonOption, ButtonSize } from "@/types/components/Button.type";
 
 interface DetailInputsDropdownProps {
   label: string;
