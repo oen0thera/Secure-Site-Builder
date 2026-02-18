@@ -2,7 +2,7 @@ import { DETAIL_INPUTS_DICT } from "@/types/components/pages/details/detail.type
 import Icon from "@/components/Icon/Icon";
 import { IconSize, IconSrc, IconColor } from "@/types/components/Icon.type";
 import styles from "./detail_inputs_dropdown.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DropdownInnerValue from "@/pages/Process/Detail/DetailInputs/DetailInputsDropdown/DropdownInner/DropdownInnerValue";
 
 interface DetailInputsDropdownProps {
