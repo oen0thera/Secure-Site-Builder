@@ -1,16 +1,22 @@
+import { DETAIL_INPUTS_DICT } from "@/types/components/pages/details/detail.type";
 import Icon from "@/components/Icon/Icon";
 import { IconSize, IconSrc, IconColor } from "@/types/components/Icon.type";
 import styles from "./detail_inputs_dropdown.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DropdownInnerValue from "@/pages/Process/Detail/DetailInputs/DetailInputsDropdown/DropdownInner/DropdownInnerValue";
 
 interface DetailInputsDropdownProps {
   label: string;
   value: string | string[];
+  selectedLabel?: string;
+  handleSelected: (label: string) => void;
 }
 
 export default function DetailInputsDropdown({
   label,
   value,
+  selectedLabel,
+  handleSelected,
 }: DetailInputsDropdownProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -26,7 +32,7 @@ export default function DetailInputsDropdown({
         >
           <div className={styles.dropdown_content}>
             <div className={styles.dropdown_label}>
-              {label}
+              {DETAIL_INPUTS_DICT[label]}
               <div className={styles.dropdown_icon_container}>
                 <div
                   className={`${styles.dropdown_icon} ${styles.clickable}`}
@@ -65,16 +71,32 @@ export default function DetailInputsDropdown({
               }}
             >
               <div className={styles.dropdown_inner}>
-                {value.map((e) => {
-                  return <div className={styles.dropdown_inner_value}>{e}</div>;
+                {value.map((e, i) => {
+                  return (
+                    <DropdownInnerValue
+                      key={i}
+                      label={e}
+                      selectedLabel={selectedLabel}
+                      setIsSelected={handleSelected}
+                    />
+                  );
                 })}
               </div>
             </div>
           </div>
         </div>
       ) : (
-        <div className={styles.dropdown_container}>
-          <div className={styles.dropdown_label}>{label}</div>
+        <div
+          className={`${styles.dropdown_container} ${
+            selectedLabel === label && styles.selected
+          }`}
+          onClick={() => {
+            handleSelected(label);
+          }}
+        >
+          <div className={styles.dropdown_label}>
+            {DETAIL_INPUTS_DICT[label]}
+          </div>
           {/* <div className={styles.dropdown_divider}></div> */}
         </div>
       )}

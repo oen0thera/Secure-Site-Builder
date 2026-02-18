@@ -3,7 +3,14 @@
   flex-direction: row;
   align-self: stretch;
   gap: 1em;
+  padding: 0.5em 0;
+  text-indent: 0.2em;
   cursor: pointer;
+  &.selected {
+    background-color: white;
+    color: black;
+    border-radius: 4px;
+  }
 }
 .dropdown_content {
   flex-grow: 1;
@@ -32,7 +39,6 @@
   display: grid;
   grid-template-rows: 0fr; /* 여기서부터 슬라이드 시작 */
   overflow: hidden;
-  padding-left: 1em;
 
   transition: grid-template-rows 0.4s cubic-bezier(0.65, 0, 0.35, 1),
     opacity 0.4s ease;
@@ -41,7 +47,6 @@
   &.expand {
     grid-template-rows: 1fr;
     opacity: 1;
-
     .dropdown_inner {
       transform: translateY(0);
     }
@@ -52,15 +57,11 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
   /* 위에서 아래로 꽂히는 느낌을 주려면 시작 위치를 확실히 잡아야 함 */
   transform: translateY(-50px);
   transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
 }
-.dropdown_inner_value {
-  min-height: 0;
-  padding-top: 1em;
-}
+
 .dropdown_divider {
   width: 100%;
   border-top: 1px solid white;

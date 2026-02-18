@@ -1,0 +1,11 @@
+.dropdown_inner_value {
+  min-height: 0;
+  text-indent: 1em;
+  border-radius: 4px;
+  padding: 0.5em 0;
+  margin-top: 0.5em;
+  &.selected {
+    background-color: #ffffff;
+    color: black;
+  }
+}

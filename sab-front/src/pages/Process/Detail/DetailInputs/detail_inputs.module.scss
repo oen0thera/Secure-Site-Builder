@@ -1,3 +1,8 @@
+.detail_inputs_container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+}
 .detail_inputs {
   flex-direction: column;
   box-shadow: 0 0 8px 0;
@@ -7,7 +12,7 @@
   border-radius: 20px;
   padding: 1em;
   background-color: #202124;
-  z-index: 0;
+  z-index: 900;
 }
 .detail_inputs_header {
   display: flex;
@@ -71,7 +76,7 @@
 .input_wrapper {
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 0.5em;
 }
 .input_label {
   align-self: stretch;
