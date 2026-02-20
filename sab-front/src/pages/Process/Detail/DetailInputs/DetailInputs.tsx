@@ -1,6 +1,9 @@
 import {
+  DETAIL_SUBSIDE_DEFAULT,
+  DETAIL_SUBSIDE_LOGO,
   DetailInputData,
   DetailPosition,
+  DetailSubsideItem,
   DetailType,
 } from "@/types/components/pages/details/detail.type";
 import styles from "./detail_inputs.module.scss";
@@ -23,12 +26,22 @@ export default function DetailInputs({
 }: DetailInputsProps) {
   const [isLogoHover, setIsLogoHover] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState<string>();
+  const [selectedLabelElements, setSelectedLabelElements] = useState<
+    DetailSubsideItem[]
+  >(DETAIL_SUBSIDE_DEFAULT);
   const handleSelected = (label: string) => {
     if (selectedLabel !== label) setSelectedLabel(label);
     else setSelectedLabel(undefined);
   };
   useEffect(() => {
-    console.log(selectedLabel);
+    // Subside 요소 설정
+    switch (selectedLabel) {
+      case "logo":
+        setSelectedLabelElements(DETAIL_SUBSIDE_LOGO);
+        break;
+      default:
+        alert("디폴트값");
+    }
   }, [selectedLabel]);
 
   const renderInputs = () => {
@@ -98,7 +111,7 @@ export default function DetailInputs({
       </div>
       <DetailInputsSubside
         isExpanded={!!selectedLabel}
-        selectedLabelElements={[]}
+        selectedLabelElements={{ elements: selectedLabelElements }}
       />
     </div>
   );

@@ -34,4 +34,20 @@ export type DetailGNBInput = typeof DETAIL_GNB_INPUTS;
 export type DetailInputData = DetailGNBInput;
 
 /* Subside 타입 */
-export type DetailSubsideElements = string[];
+export type DetailSubsideElements = {
+  elements: DetailSubsideItem[];
+};
+
+export type DetailSubsideItem = {
+  type: string;
+  label: string;
+  value: string | number | null;
+};
+
+export const DETAIL_SUBSIDE_LOGO: DetailSubsideItem[] = [
+  { type: "image", label: "logo", value: null },
+];
+
+export const DETAIL_SUBSIDE_DEFAULT: DetailSubsideItem[] = [
+  { type: "text", label: "page_link", value: "" },
+];
