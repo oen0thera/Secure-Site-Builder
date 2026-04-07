@@ -5,6 +5,7 @@ export type IconProps = {
   options?: IconOptions;
 };
 export enum IconSize {
+  EXTRA_SMALL_SMALL = "xss",
   EXTRA_SMALL = "xs",
   SMALL = "sm",
 }
@@ -13,6 +14,10 @@ export enum IconSrc {
   CHEVRON = "chevron.png",
   SEARCH = "search.svg",
   TRASHCAN = "trash-solid.svg",
+  EDIT = "pen-solid.svg",
+  IMAGE = "image-solid.svg",
+  ADD = "plus-solid.svg",
+  DELETE = "minus-solid.svg",
 }
 export enum IconColor {
   WHITE = "white",
@@ -21,4 +26,5 @@ export enum IconColor {
 }
 export type IconOptions = {
   inverted?: boolean;
+  pivoted?: boolean;
 };
