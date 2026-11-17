@@ -1,7 +1,10 @@
+import { ReactElement } from "react";
+
 export type ButtonProps = {
   size: ButtonSize;
-  content: string;
+  content: string | ReactElement;
   type?: ButtonType;
+  options?: ButtonOption;
   onClick: () => void;
 };
 export enum ButtonSize {
@@ -16,4 +19,7 @@ export enum ButtonType {
   NAVER = "naver",
   DARK = "dark",
   DEFAULT = "default",
+}
+export enum ButtonOption {
+  STRETCH = "stretch",
 }

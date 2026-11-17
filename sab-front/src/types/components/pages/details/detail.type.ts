@@ -12,12 +12,19 @@ export const DETAIL_POSITION = {
   BOTTOM: "bottom",
 };
 
+export const DETAIL_INPUTS_DICT: Record<string, string> = {
+  logo: "로고",
+  linkSection: "링크",
+  userSection: "회원",
+};
+
 export const DETAIL_GNB_INPUTS = {
   logo: "",
-  linkSection: [] as string[],
-  userSection: [] as string[],
+  linkSection: ["소개", "요금", "고객지원"] as string[],
+  userSection: ["로그인", "회원가입"] as string[],
 } as const;
 
+/* Detail 타입 */
 export type DetailType = (typeof DETAIL_TYPE)[keyof typeof DETAIL_TYPE];
 export type DetailPosition =
   (typeof DETAIL_POSITION)[keyof typeof DETAIL_POSITION];
@@ -25,3 +32,22 @@ export type DetailPosition =
 export type DetailGNBInput = typeof DETAIL_GNB_INPUTS;
 
 export type DetailInputData = DetailGNBInput;
+
+/* Subside 타입 */
+export type DetailSubsideElements = {
+  elements: DetailSubsideItem[];
+};
+
+export type DetailSubsideItem = {
+  type: string;
+  label: string;
+  value: string | number | null;
+};
+
+export const DETAIL_SUBSIDE_LOGO: DetailSubsideItem[] = [
+  { type: "image", label: "logo", value: null },
+];
+
+export const DETAIL_SUBSIDE_DEFAULT: DetailSubsideItem[] = [
+  { type: "text", label: "page_link", value: "" },
+];
