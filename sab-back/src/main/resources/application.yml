@@ -28,17 +28,17 @@ spring:
     url: jdbc:oracle:thin:@localhost:1521/sabpdb
     username: "${DB_USERNAME}"
     password: "${DB_PASSWORD}"
-  #스프링 부트의 디폴트 커넥션 풀인 Hikari 디폴트 설정.
-  #https://github.com/brettwooldridge/HikariCP?tab=readme-ov-file#frequently-used
-  hikari: #선택 사항(스프링 부트는 hikari가 기본 CP다)
-    auto-commit: true
-    connection-timeout: 30000
-    maximum-pool-size: 10
+    #스프링 부트의 디폴트 커넥션 풀인 Hikari 디폴트 설정.
+    #https://github.com/brettwooldridge/HikariCP?tab=readme-ov-file#frequently-used
+    hikari: #선택 사항(스프링 부트는 hikari가 기본 CP다)
+      auto-commit: true
+      connection-timeout: 30000
+      maximum-pool-size: 10
   #Spring Data JPA 설정
   jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
     hibernate:
-      dialect: org.hibernate.dialect.Oracle12cDialect
-      ddl-auto: update
+      ddl-auto: validate
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
