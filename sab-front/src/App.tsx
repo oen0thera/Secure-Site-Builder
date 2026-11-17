@@ -6,7 +6,7 @@ import Login from "./pages/Login/Login";
 import GNB from "./components/GNB/GNB";
 import About from "./pages/Introduction/Stages/Content/Showcase/ShowcaseUnit/ShowcaseDetails/About/About";
 import Template from "./pages/Templates/Template";
-import Custom from "./pages/Custom/Custom";
+import Process from "@/layouts/Process/Process";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Route path="/templates" element={<Template />} />
 
         <Route path="/login" element={<Login />} />
-        <Route path="/custom" element={<Custom />} />
+        <Route path="/process" element={<Process />} />
       </Routes>
     </div>
   );

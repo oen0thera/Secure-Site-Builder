@@ -8,13 +8,14 @@
   z-index: 200;
   background: linear-gradient(135deg, #0000009a, #333333);
 }
+
 .custom {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 .custom_section {
-  margin: 5em;
+  margin: 10em 5em;
   height: 100%;
   display: flex;
   gap: 2em;
