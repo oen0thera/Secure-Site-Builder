@@ -5,6 +5,13 @@ import {
   CustomizerProps,
 } from "@/types/components/pages/custom/Custom.type";
 
+const PALETTE_TITLES: Record<string, string> = {
+  [customComponentType.GNB]: "GNB",
+  [customComponentType.CONTENT]: "Content",
+  [customComponentType.SIDEBAR]: "Side bar",
+  [customComponentType.FOOTER]: "Footer",
+};
+
 export default function Customizer({ handleCustomDrag }: CustomizerProps) {
   const ghostRef = useRef<HTMLDivElement>(null);
   const handleDrag = (event: React.DragEvent<HTMLDivElement>) => {
@@ -12,17 +19,11 @@ export default function Customizer({ handleCustomDrag }: CustomizerProps) {
     const dragComponentId = event.currentTarget.id;
     console.log("dragComponentId:", dragComponentId);
     switch (dragComponentId) {
-      case "gnb":
-        dragComponentType = customComponentType.GNB;
-        break;
-      case "content":
-        dragComponentType = customComponentType.CONTENT;
-        break;
-      case "sidebar":
-        dragComponentType = customComponentType.SIDEBAR;
-        break;
-      case "footer":
-        dragComponentType = customComponentType.FOOTER;
+      case customComponentType.GNB:
+      case customComponentType.CONTENT:
+      case customComponentType.SIDEBAR:
+      case customComponentType.FOOTER:
+        dragComponentType = dragComponentId as customComponentType;
         break;
     }
     if (event.type == "dragstart") {
@@ -58,40 +59,42 @@ export default function Customizer({ handleCustomDrag }: CustomizerProps) {
     <>
       <div className={styles.customizer}>
         <div
-          id={"gnb"}
+          id={customComponentType.GNB}
           className={styles.customGNB}
           draggable
           onDragStart={handleDrag}
           onDragEnd={handleDrag}
         >
-          GNB
+          {PALETTE_TITLES[customComponentType.GNB]}
         </div>
         <div className={styles.customBody}>
           <div
-            id={"content"}
+            id={customComponentType.CONTENT}
             className={styles.customContent}
             draggable
             onDragStart={handleDrag}
             onDragEnd={handleDrag}
           >
-            Content
+            {PALETTE_TITLES[customComponentType.CONTENT]}
           </div>
           <div
-            id={"sidebar"}
+            id={customComponentType.SIDEBAR}
             className={styles.customSidebar}
             draggable
             onDragStart={handleDrag}
+            onDragEnd={handleDrag}
           >
-            Side bar
+            {PALETTE_TITLES[customComponentType.SIDEBAR]}
           </div>
         </div>
         <div
-          id={"footer"}
+          id={customComponentType.FOOTER}
           className={styles.customFooter}
           draggable
           onDragStart={handleDrag}
+          onDragEnd={handleDrag}
         >
-          Footer
+          {PALETTE_TITLES[customComponentType.FOOTER]}
         </div>
         <div
           ref={ghostRef}
