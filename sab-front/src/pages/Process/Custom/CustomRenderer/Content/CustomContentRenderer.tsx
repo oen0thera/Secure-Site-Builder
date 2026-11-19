@@ -8,9 +8,12 @@ export default function CustomContentRenderer({
   onGnbDrag,
   onContentDrag,
   onSidebarDrag,
+  isDraggingCreated,
+  isSelected,
   handleDrop,
   selectedComponentPositions,
   handleCreatedDrag,
+  onToggleSelect,
 }: CustomContentRendererProps) {
   function renderContent() {
     if (selectedComponentPositions["content"] === "custom_content") {
@@ -19,6 +22,8 @@ export default function CustomContentRenderer({
           id={"custom_content"}
           title={"custom_content"}
           className={`${styles.custom_content} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          } ${
             selectedComponentPositions["sidebar"] !== "custom_sidebar_bottom" &&
             selectedComponentPositions["sidebar"] !== "custom_sidebar_top"
               ? selectedComponentPositions["gnb"] === "custom_gnb_right"
@@ -34,12 +39,18 @@ export default function CustomContentRenderer({
           }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.CONTENT,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.CONTENT,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.CONTENT)}
           onDrop={handleDrop}
           draggable
         >
@@ -48,7 +59,7 @@ export default function CustomContentRenderer({
       );
     }
 
-    if (onContentDrag === true) {
+    if (onContentDrag === true && !isDraggingCreated) {
       return (
         <div
           id={"custom_content"}
@@ -64,7 +75,6 @@ export default function CustomContentRenderer({
   }
   return (
     <>
-      {/* Content 파트 */}
       {renderContent()}
     </>
   );

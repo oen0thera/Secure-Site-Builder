@@ -77,6 +77,19 @@
   }
 }
 
+@media (max-width: 1280px) {
+  .customizer {
+    padding: 0.75em;
+  }
+}
+
+@media (min-width: 1920px) {
+  .customizer {
+    padding: 1.5em;
+    gap: 0.75em;
+  }
+}
+
 @keyframes onHover {
   0% {
     background-color: black;

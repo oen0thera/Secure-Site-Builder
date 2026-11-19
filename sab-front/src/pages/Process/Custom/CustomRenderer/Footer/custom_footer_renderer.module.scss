@@ -6,6 +6,7 @@
   border: 1px dashed rgb(71, 71, 71);
   background-color: rgb(211, 208, 208);
   position: relative;
+  box-sizing: border-box;
   word-break: break-word;
   text-align: center;
 
@@ -36,5 +37,16 @@
     font-weight: bold;
     border: none;
     background-color: white;
+    position: relative;
+    overflow: visible;
+  }
+  &.highlight {
+    box-shadow: 0 0 0 3px #3498db;
+  }
+}
+
+@media (max-width: 1280px) {
+  .custom_footer {
+    font-size: 1.5em;
   }
 }

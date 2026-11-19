@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./custom.module.scss";
 import Customizer from "./Customizer/Customizer";
-import { handleCustomDragParam } from "@/types/components/pages/custom/Custom.type";
+import {
+  customComponentType,
+  CustomSelectionProps,
+  handleCustomDragParam,
+} from "@/types/components/pages/custom/Custom.type";
 import CustomGnbRenderer from "@/pages/Process/Custom/CustomRenderer/Gnb/CustomGnbRenderer";
 import CustomContentRenderer from "@/pages/Process/Custom/CustomRenderer/Content/CustomContentRenderer";
 import CustomSidebarRenderer from "@/pages/Process/Custom/CustomRenderer/Sidebar/CustomSidebarRenderer";
 import CustomFooterRenderer from "@/pages/Process/Custom/CustomRenderer/Footer/CustomFooterRenderer";
-import Icon from "@/components/Icon/Icon";
-import { IconColor, IconSize, IconSrc } from "@/types/components/Icon.type";
 import useCustomStore from "@/store/useCustomStore";
 
-export default function Custom() {
+export default function Custom({
+  selectedTypes,
+  toggleSelect,
+}: CustomSelectionProps) {
   const { selectedComponentPositions, setSelectedComponentPositions } =
     useCustomStore();
   const [isDraggingCreated, setIsDraggingCreated] = useState(false);
@@ -21,41 +26,37 @@ export default function Custom() {
 
   const handleCustomDrag = ({ isDragging, type }: handleCustomDragParam) => {
     switch (type) {
-      case "gnb":
+      case customComponentType.GNB:
         setOnGnbDrag(isDragging);
         break;
-      case "content":
+      case customComponentType.CONTENT:
         setOnContentDrag(isDragging);
         break;
-      case "sidebar":
+      case customComponentType.SIDEBAR:
         setOnSidebarDrag(isDragging);
         break;
-      case "footer":
+      case customComponentType.FOOTER:
         setOnFooterDrag(isDragging);
         break;
     }
   };
   const handleCreatedDrag = ({ isDragging, type }: handleCustomDragParam) => {
-    setIsDraggingCreated(isDragging); //현재 dragging하고 있는 컴포넌트가 사용자에 의해 생성된 컴포넌트인지 여부
+    setIsDraggingCreated(isDragging);
     switch (type) {
-      case "gnb":
+      case customComponentType.GNB:
         setOnGnbDrag(isDragging);
         break;
-      case "content":
+      case customComponentType.CONTENT:
         setOnContentDrag(isDragging);
         break;
-      case "sidebar":
+      case customComponentType.SIDEBAR:
         setOnSidebarDrag(isDragging);
         break;
-      case "footer":
+      case customComponentType.FOOTER:
         setOnFooterDrag(isDragging);
         break;
     }
   };
-
-  useEffect(() => {
-    console.log(selectedComponentPositions, onGnbDrag, onContentDrag);
-  }, [selectedComponentPositions]);
 
   const validateDuplicateDrop = (component: string) => {
     const splitComponent = component.split("_");
@@ -73,7 +74,7 @@ export default function Custom() {
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    let component = event.currentTarget.title;
+    const component = event.currentTarget.title;
     if (validateDuplicateDrop(component) === false) {
       alert(
         "이미 배치된 위치입니다. 기존 요소를 삭제하시거나 다른 위치를 선택해주세요."
@@ -106,18 +107,6 @@ export default function Custom() {
           return { ...prev, footer: component };
         });
         break;
-      case "drop_area":
-        console.log("drop_area:", component);
-        setSelectedComponentPositions((prev) => {
-          if (isDraggingCreated && onGnbDrag) return { ...prev, gnb: null };
-          if (isDraggingCreated && onContentDrag)
-            return { ...prev, content: null };
-          if (isDraggingCreated && onSidebarDrag)
-            return { ...prev, sidebar: null };
-          if (isDraggingCreated && onFooterDrag)
-            return { ...prev, footer: null };
-          return { ...prev };
-        });
     }
 
     setOnGnbDrag(false);
@@ -128,28 +117,9 @@ export default function Custom() {
 
   return (
     <>
-      {(onGnbDrag || onContentDrag || onSidebarDrag) && (
-        <div
-          id={"drop_area"}
-          title={"drop_area"}
-          className={styles.preventGnbDrop}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={handleDrop}
-        >
-          <Icon
-            size={IconSize.SMALL}
-            src={IconSrc.TRASHCAN}
-            color={IconColor.RED}
-          />
-        </div>
-      )}
-      <div
-        className={styles.custom}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDrop}
-      >
+      <div className={styles.custom}>
         <section className={styles.custom_section}>
-          <div className={styles.custom_components}>
+          <div className={styles.custom_components} data-testid="custom-palette">
             <h2>Customizer</h2>
             <Customizer handleCustomDrag={handleCustomDrag} />
           </div>
@@ -164,31 +134,43 @@ export default function Custom() {
           >
             <CustomGnbRenderer
               onGnbDrag={onGnbDrag}
+              isDraggingCreated={isDraggingCreated}
+              isSelected={selectedTypes.includes(customComponentType.GNB)}
               handleDrop={handleDrop}
               handleCreatedDrag={handleCreatedDrag}
               selectedComponentPositions={selectedComponentPositions}
+              onToggleSelect={toggleSelect}
             />
             <CustomContentRenderer
               onGnbDrag={onGnbDrag}
               onContentDrag={onContentDrag}
               onSidebarDrag={onSidebarDrag}
+              isDraggingCreated={isDraggingCreated}
+              isSelected={selectedTypes.includes(customComponentType.CONTENT)}
               handleDrop={handleDrop}
               handleCreatedDrag={handleCreatedDrag}
               selectedComponentPositions={selectedComponentPositions}
+              onToggleSelect={toggleSelect}
             />
             <CustomSidebarRenderer
               onGnbDrag={onGnbDrag}
               onContentDrag={onContentDrag}
               onSidebarDrag={onSidebarDrag}
+              isDraggingCreated={isDraggingCreated}
+              isSelected={selectedTypes.includes(customComponentType.SIDEBAR)}
               handleDrop={handleDrop}
               handleCreatedDrag={handleCreatedDrag}
               selectedComponentPositions={selectedComponentPositions}
+              onToggleSelect={toggleSelect}
             />
             <CustomFooterRenderer
               onFooterDrag={onFooterDrag}
+              isDraggingCreated={isDraggingCreated}
+              isSelected={selectedTypes.includes(customComponentType.FOOTER)}
               handleDrop={handleDrop}
               handleCreatedDrag={handleCreatedDrag}
               selectedComponentPositions={selectedComponentPositions}
+              onToggleSelect={toggleSelect}
             />
           </div>
         </section>

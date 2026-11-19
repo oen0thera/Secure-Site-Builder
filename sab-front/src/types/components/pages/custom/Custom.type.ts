@@ -4,6 +4,11 @@ export type CustomizerProps = {
   handleCustomDrag: (handleCustomDragParam: handleCustomDragParam) => void;
 };
 
+export type CustomSelectionProps = {
+  selectedTypes: customComponentType[];
+  toggleSelect: (type: customComponentType) => void;
+};
+
 export const GNB_POSITIONS = {
   TOP: "custom_gnb_top",
   LEFT: "custom_gnb_left",
@@ -43,6 +48,14 @@ export const DEFAULT_COMPONENT_POSITIONS: ComponentPositions = {
   footer: null,
 };
 
+export type customComponentKey = "gnb" | "content" | "sidebar" | "footer";
+
+export type customComponentInfo = {
+  key: customComponentKey;
+  label: string;
+  type: customComponentType;
+};
+
 export type ComponentConfig = {
   title?: string;
   items?: string[];
@@ -64,34 +77,46 @@ export const DEFAULT_COMPONENT_CONFIGS: ComponentConfigs = {
 
 export type CustomGnbRendererProps = {
   onGnbDrag: boolean;
+  isDraggingCreated: boolean;
+  isSelected: boolean;
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   selectedComponentPositions: ComponentPositions;
   handleCreatedDrag: (handleCustomDragParam: handleCustomDragParam) => void;
+  onToggleSelect: (type: customComponentType) => void;
 };
 
 export type CustomContentRendererProps = {
   onGnbDrag: boolean;
   onContentDrag: boolean;
   onSidebarDrag: boolean;
+  isDraggingCreated: boolean;
+  isSelected: boolean;
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   selectedComponentPositions: ComponentPositions;
   handleCreatedDrag: (handleCustomDragParam: handleCustomDragParam) => void;
+  onToggleSelect: (type: customComponentType) => void;
 };
 
 export type CustomSidebarRendererProps = {
   onGnbDrag: boolean;
   onContentDrag: boolean;
   onSidebarDrag: boolean;
+  isDraggingCreated: boolean;
+  isSelected: boolean;
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   selectedComponentPositions: ComponentPositions;
   handleCreatedDrag: (handleCustomDragParam: handleCustomDragParam) => void;
+  onToggleSelect: (type: customComponentType) => void;
 };
 
 export type CustomFooterRendererProps = {
   onFooterDrag: boolean;
+  isDraggingCreated: boolean;
+  isSelected: boolean;
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   selectedComponentPositions: ComponentPositions;
   handleCreatedDrag: (handleCustomDragParam: handleCustomDragParam) => void;
+  onToggleSelect: (type: customComponentType) => void;
 };
 
 export type handleCustomDragParam = {
@@ -105,3 +130,4 @@ export enum customComponentType {
   SIDEBAR = "sidebar",
   FOOTER = "footer",
 }
+

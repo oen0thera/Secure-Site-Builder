@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "./custom_gnb_renderer.module.scss";
 import {
   customComponentType,
@@ -7,47 +6,49 @@ import {
 
 export default function CustomGnbRenderer({
   onGnbDrag,
+  isDraggingCreated,
+  isSelected,
   handleDrop,
   selectedComponentPositions,
   handleCreatedDrag,
+  onToggleSelect,
 }: CustomGnbRendererProps) {
-  useEffect(() => {
-    console.log(selectedComponentPositions);
-  }, [selectedComponentPositions]);
-
   function renderLeft() {
-    console.log("renderLeft 호출됨:", selectedComponentPositions["gnb"]);
-    console.log(selectedComponentPositions["gnb"] === "custom_gnb_left");
     if (selectedComponentPositions["gnb"] === "custom_gnb_left") {
       return (
         <div
           id={"custom_gnb"}
           title={"custom_gnb_left"}
-          className={`${styles.custom_gnb} ${styles.left} ${styles.selected}`}
+          className={`${styles.custom_gnb} ${styles.left} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.GNB,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.GNB,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.GNB)}
           draggable
         >
           GNB
         </div>
       );
     }
-    if (onGnbDrag === true) {
-      console.log("??");
+    if (onGnbDrag === true && !isDraggingCreated) {
       return (
         <div
           id={"custom_gnb"}
           title={"custom_gnb_left"}
           className={`${styles.custom_gnb} ${styles.left}`}
-          onDragOver={(e) => {
-            e.preventDefault();
-          }}
+          onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
         ></div>
       );
@@ -61,22 +62,30 @@ export default function CustomGnbRenderer({
         <div
           id={"custom_gnb"}
           title={"custom_gnb_top"}
-          className={`${styles.custom_gnb} ${styles.top} ${styles.selected}`}
+          className={`${styles.custom_gnb} ${styles.top} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.GNB,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.GNB,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.GNB)}
           draggable
         >
           GNB
         </div>
       );
     }
-    if (onGnbDrag) {
+    if (onGnbDrag && !isDraggingCreated) {
       return (
         <div
           id={"custom_gnb"}
@@ -93,27 +102,34 @@ export default function CustomGnbRenderer({
 
   function renderRight() {
     if (selectedComponentPositions["gnb"] === "custom_gnb_right") {
-      console.log("render right");
       return (
         <div
           id={"custom_gnb"}
           title={"custom_gnb_right"}
-          className={`${styles.custom_gnb} ${styles.right} ${styles.selected}`}
+          className={`${styles.custom_gnb} ${styles.right} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.GNB,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.GNB,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.GNB)}
           draggable
         >
           GNB
         </div>
       );
     }
-    if (onGnbDrag) {
+    if (onGnbDrag && !isDraggingCreated) {
       return (
         <div
           id={"custom_gnb"}

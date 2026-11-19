@@ -8,6 +8,8 @@ export enum IconSize {
   EXTRA_SMALL_SMALL = "xss",
   EXTRA_SMALL = "xs",
   SMALL = "sm",
+  MEDIUM = "md",
+  LARGE = "lg",
 }
 export enum IconSrc {
   SCROLL = "mouse-scroll.svg",

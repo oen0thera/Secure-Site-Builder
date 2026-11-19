@@ -25,3 +25,11 @@ yarn-error.log*
 /.metadata/
 .wiki/
 .vscode/
+
+# Playwright
+/sab-front/tests/
+/sab-front/test-results/
+/sab-front/playwright-report/
+
+# local runtime artifacts
+.local/

@@ -7,9 +7,12 @@ import {
 export default function CustomSidebarRenderer({
   onGnbDrag,
   onSidebarDrag,
+  isDraggingCreated,
+  isSelected,
   handleDrop,
   selectedComponentPositions,
   handleCreatedDrag,
+  onToggleSelect,
 }: CustomSidebarRendererProps) {
   function renderSidebarLeft() {
     if (selectedComponentPositions["sidebar"] === "custom_sidebar_left") {
@@ -19,7 +22,7 @@ export default function CustomSidebarRenderer({
           title={"custom_sidebar_left"}
           className={`${styles.custom_sidebar} ${styles.left} ${
             styles.selected
-          } ${
+          } ${isSelected ? styles.highlight : ""} ${
             selectedComponentPositions["gnb"] === "custom_gnb_right"
               ? onGnbDrag
                 ? styles.vertical_changable
@@ -32,12 +35,18 @@ export default function CustomSidebarRenderer({
           }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.SIDEBAR,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.SIDEBAR,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.SIDEBAR)}
           onDrop={handleDrop}
           draggable
         >
@@ -48,6 +57,7 @@ export default function CustomSidebarRenderer({
 
     if (
       onSidebarDrag === true &&
+      !isDraggingCreated &&
       selectedComponentPositions["gnb"] !== "custom_gnb_left"
     ) {
       return (
@@ -72,7 +82,7 @@ export default function CustomSidebarRenderer({
           title={"custom_sidebar_right"}
           className={`${styles.custom_sidebar} ${styles.right} ${
             styles.selected
-          } ${
+          } ${isSelected ? styles.highlight : ""} ${
             selectedComponentPositions["gnb"] === "custom_gnb_right"
               ? onGnbDrag
                 ? styles.vertical_changable
@@ -85,12 +95,18 @@ export default function CustomSidebarRenderer({
           }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.SIDEBAR,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.SIDEBAR,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.SIDEBAR)}
           onDrop={handleDrop}
           draggable
         >
@@ -99,7 +115,7 @@ export default function CustomSidebarRenderer({
       );
     }
 
-    if (onSidebarDrag === true) {
+    if (onSidebarDrag === true && !isDraggingCreated) {
       return (
         <div
           id={"custom_sidebar"}
@@ -119,15 +135,23 @@ export default function CustomSidebarRenderer({
         <div
           id={"custom_sidebar"}
           title={"custom_sidebar_top"}
-          className={`${styles.custom_sidebar} ${styles.top} ${styles.selected}`}
+          className={`${styles.custom_sidebar} ${styles.top} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.SIDEBAR,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.SIDEBAR,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.SIDEBAR)}
           onDrop={handleDrop}
           draggable
         >
@@ -136,7 +160,7 @@ export default function CustomSidebarRenderer({
       );
     }
 
-    if (onSidebarDrag === true) {
+    if (onSidebarDrag === true && !isDraggingCreated) {
       return (
         <div
           id={"custom_sidebar"}
@@ -157,15 +181,23 @@ export default function CustomSidebarRenderer({
         <div
           id={"custom_sidebar"}
           title={"custom_sidebar_bottom"}
-          className={`${styles.custom_sidebar} ${styles.bottom} ${styles.selected}`}
+          className={`${styles.custom_sidebar} ${styles.bottom} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.SIDEBAR,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.SIDEBAR,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.SIDEBAR)}
           onDrop={handleDrop}
           draggable
         >
@@ -174,7 +206,7 @@ export default function CustomSidebarRenderer({
       );
     }
 
-    if (onSidebarDrag === true) {
+    if (onSidebarDrag === true && !isDraggingCreated) {
       return (
         <div
           id={"custom_sidebar"}
@@ -191,7 +223,6 @@ export default function CustomSidebarRenderer({
 
   return (
     <>
-      {/* Sidebar 파트 */}
       {renderSidebarLeft()}
       {renderSidebarRight()}
       {renderSidebarTop()}

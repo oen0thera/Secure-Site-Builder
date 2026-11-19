@@ -8,6 +8,7 @@
   border: 1px dashed rgb(71, 71, 71);
   background-color: rgb(211, 208, 208);
   position: relative;
+  box-sizing: border-box;
   &.selected {
     display: flex;
     align-items: center;
@@ -19,11 +20,22 @@
     font-weight: bold;
     border: none;
     background-color: white;
+    position: relative;
+    overflow: visible;
+  }
+  &.highlight {
+    box-shadow: 0 0 0 3px #3498db;
   }
   &.vertical_expand {
     grid-row: 1/4;
   }
   &.vertical_changable {
     grid-row: 2/4;
+  }
+}
+
+@media (max-width: 1280px) {
+  .custom_content {
+    font-size: 1.5em;
   }
 }

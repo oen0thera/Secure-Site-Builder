@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "./custom_footer_renderer.module.scss";
 import {
   customComponentType,
@@ -7,47 +6,49 @@ import {
 
 export default function CustomFooterRenderer({
   onFooterDrag,
+  isDraggingCreated,
+  isSelected,
   handleDrop,
   selectedComponentPositions,
   handleCreatedDrag,
+  onToggleSelect,
 }: CustomFooterRendererProps) {
-  useEffect(() => {
-    console.log(selectedComponentPositions);
-  }, [selectedComponentPositions]);
-
   function renderLeft() {
-    console.log("renderLeft 호출됨:", selectedComponentPositions["footer"]);
-    console.log(selectedComponentPositions["footer"] === "custom_footer_left");
     if (selectedComponentPositions["footer"] === "custom_footer_left") {
       return (
         <div
           id={"custom_footer"}
           title={"custom_footer_left"}
-          className={`${styles.custom_footer} ${styles.left} ${styles.selected}`}
+          className={`${styles.custom_footer} ${styles.left} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.FOOTER,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.FOOTER,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.FOOTER)}
           draggable
         >
           FOOTER
         </div>
       );
     }
-    if (onFooterDrag === true) {
-      console.log("??");
+    if (onFooterDrag === true && !isDraggingCreated) {
       return (
         <div
           id={"custom_footer"}
           title={"custom_footer_left"}
           className={`${styles.custom_footer} ${styles.left}`}
-          onDragOver={(e) => {
-            e.preventDefault();
-          }}
+          onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
         ></div>
       );
@@ -61,22 +62,30 @@ export default function CustomFooterRenderer({
         <div
           id={"custom_footer"}
           title={"custom_footer_bottom"}
-          className={`${styles.custom_footer} ${styles.bottom} ${styles.selected}`}
+          className={`${styles.custom_footer} ${styles.bottom} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.FOOTER,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.FOOTER,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.FOOTER)}
           draggable
         >
           FOOTER
         </div>
       );
     }
-    if (onFooterDrag) {
+    if (onFooterDrag && !isDraggingCreated) {
       return (
         <div
           id={"custom_footer"}
@@ -93,27 +102,34 @@ export default function CustomFooterRenderer({
 
   function renderRight() {
     if (selectedComponentPositions["footer"] === "custom_footer_right") {
-      console.log("render right");
       return (
         <div
           id={"custom_footer"}
           title={"custom_footer_right"}
-          className={`${styles.custom_footer} ${styles.right} ${styles.selected}`}
+          className={`${styles.custom_footer} ${styles.right} ${styles.selected} ${
+            isSelected ? styles.highlight : ""
+          }`}
           onDragOver={(e) => e.preventDefault()}
           onDragStart={() => {
-            console.log("dragStart");
             handleCreatedDrag({
               isDragging: true,
               type: customComponentType.FOOTER,
             });
           }}
+          onDragEnd={() => {
+            handleCreatedDrag({
+              isDragging: false,
+              type: customComponentType.FOOTER,
+            });
+          }}
+          onClick={() => onToggleSelect(customComponentType.FOOTER)}
           draggable
         >
           FOOTER
         </div>
       );
     }
-    if (onFooterDrag) {
+    if (onFooterDrag && !isDraggingCreated) {
       return (
         <div
           id={"custom_footer"}

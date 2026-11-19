@@ -17,6 +17,12 @@ export default function Icon({
     case IconSize.SMALL:
       iconSize = 50;
       break;
+    case IconSize.MEDIUM:
+      iconSize = 75;
+      break;
+    case IconSize.LARGE:
+      iconSize = 100;
+      break;
     default:
       iconSize = 100;
   }
@@ -34,6 +40,7 @@ export default function Icon({
         className={styles[color]}
         src={`/icons/${src}`}
         width={iconSize}
+        height={iconSize}
         style={getOptions()}
       />
     </div>
