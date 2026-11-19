@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./custom.module.scss";
 import Customizer from "./Customizer/Customizer";
 import {
+  ComponentPositions,
   customComponentType,
   CustomSelectionProps,
   handleCustomDragParam,
@@ -58,6 +59,26 @@ export default function Custom({
     }
   };
 
+  const clearConflictingModePositions = (
+    next: ComponentPositions,
+    component: string,
+    type: "gnb" | "sidebar" | "footer"
+  ): ComponentPositions => {
+    const isSidePosition = component.endsWith("_left") || component.endsWith("_right");
+    const cleared = { ...next };
+
+    if ((type === "gnb" || type === "footer") && isSidePosition) {
+      if (cleared.gnb?.endsWith("_top") || cleared.gnb?.endsWith("_bottom")) cleared.gnb = null;
+      if (cleared.sidebar?.endsWith("_top") || cleared.sidebar?.endsWith("_bottom")) cleared.sidebar = null;
+      if (cleared.footer?.endsWith("_top") || cleared.footer?.endsWith("_bottom")) cleared.footer = null;
+    } else if ((type === "gnb" || type === "footer") && !isSidePosition) {
+      if (cleared.gnb?.endsWith("_left") || cleared.gnb?.endsWith("_right")) cleared.gnb = null;
+      if (cleared.footer?.endsWith("_left") || cleared.footer?.endsWith("_right")) cleared.footer = null;
+    }
+
+    return cleared;
+  };
+
   const validateDuplicateDrop = (component: string) => {
     const splitComponent = component.split("_");
     const position = splitComponent[splitComponent.length - 1];
@@ -89,7 +110,7 @@ export default function Custom({
     switch (event.currentTarget.id) {
       case "custom_gnb":
         setSelectedComponentPositions((prev) => {
-          return { ...prev, gnb: component };
+          return clearConflictingModePositions({ ...prev, gnb: component }, component, "gnb");
         });
         break;
       case "custom_content":
@@ -99,12 +120,12 @@ export default function Custom({
         break;
       case "custom_sidebar":
         setSelectedComponentPositions((prev) => {
-          return { ...prev, sidebar: component };
+          return clearConflictingModePositions({ ...prev, sidebar: component }, component, "sidebar");
         });
         break;
       case "custom_footer":
         setSelectedComponentPositions((prev) => {
-          return { ...prev, footer: component };
+          return clearConflictingModePositions({ ...prev, footer: component }, component, "footer");
         });
         break;
     }

@@ -17,8 +17,8 @@
   height: 100%;
 }
 .custom_section {
-  margin: 2em 5em;
-  height: calc(100vh - 12em);
+  margin: 6em 5em 2em;
+  height: calc(100vh - 16em);
   min-height: 30em;
   display: flex;
   gap: 2em;
@@ -53,9 +53,9 @@
 
 @media (max-width: 1280px) {
   .custom_section {
-    margin: 1em 2em;
+    margin: 6em 2em 1em;
     gap: 1em;
-    height: calc(100vh - 10em);
+    height: calc(100vh - 14em);
   }
   .custom_components {
     width: 18em;

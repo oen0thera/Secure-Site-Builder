@@ -31,6 +31,7 @@ export default function Icon({
     let transforms = [];
     if (options?.inverted) transforms.push("rotate(-180deg)");
     if (options?.pivoted) transforms.push("rotate(-90deg)");
+    if (options?.height) transforms.push(`height: ${options.height}px`);
 
     return transforms.length > 0 ? { transform: transforms.join(" ") } : {};
   };

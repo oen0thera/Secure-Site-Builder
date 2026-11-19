@@ -53,9 +53,44 @@
     background-color: white;
     box-shadow: 0 0px 8px 0px #00000052;
   }
+  &.grey {
+    background-color: #9696a1;
+    color: rgb(119, 117, 117);
+    backdrop-filter: blur(10px);
+    &:hover {
+      background-color: #707075;
+    }
+  }
+
+  &.red {
+    background-color: #ee3824;
+    color: white;
+    &:hover {
+      background-color: #c0392b;
+    }
+  }
+
+  &.ghost {
+    background-color: transparent;
+    color: white;
+  }
 
   &.stretch {
     width: 100% !important;
     align-self: stretch;
+  }
+
+  &.font-black {
+    color: black;
+  }
+  &.font-white {
+    color: white;
+  }
+
+  &.font-red {
+    color: #e74c3c;
+    &:hover {
+      color: white;
+    }
   }
 }

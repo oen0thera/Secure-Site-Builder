@@ -8,7 +8,6 @@ export default function CustomContentRenderer({
   onGnbDrag,
   onContentDrag,
   onSidebarDrag,
-  isDraggingCreated,
   isSelected,
   handleDrop,
   selectedComponentPositions,
@@ -59,7 +58,7 @@ export default function CustomContentRenderer({
       );
     }
 
-    if (onContentDrag === true && !isDraggingCreated) {
+    if (onContentDrag === true) {
       return (
         <div
           id={"custom_content"}

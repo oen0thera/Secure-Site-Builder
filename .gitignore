@@ -30,6 +30,7 @@ yarn-error.log*
 /sab-front/tests/
 /sab-front/test-results/
 /sab-front/playwright-report/
+/sab-front/playwright.config.ts
 
 # local runtime artifacts
 .local/

@@ -29,4 +29,5 @@ export enum IconColor {
 export type IconOptions = {
   inverted?: boolean;
   pivoted?: boolean;
+  height?: number;
 };

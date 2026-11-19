@@ -6,7 +6,6 @@ import {
 
 export default function CustomGnbRenderer({
   onGnbDrag,
-  isDraggingCreated,
   isSelected,
   handleDrop,
   selectedComponentPositions,
@@ -42,7 +41,11 @@ export default function CustomGnbRenderer({
         </div>
       );
     }
-    if (onGnbDrag === true && !isDraggingCreated) {
+    if (
+      onGnbDrag === true &&
+      selectedComponentPositions["sidebar"] !== "custom_sidebar_left" &&
+      selectedComponentPositions["footer"] !== "custom_footer_left"
+    ) {
       return (
         <div
           id={"custom_gnb"}
@@ -85,7 +88,11 @@ export default function CustomGnbRenderer({
         </div>
       );
     }
-    if (onGnbDrag && !isDraggingCreated) {
+    if (
+      onGnbDrag &&
+      selectedComponentPositions["sidebar"] !== "custom_sidebar_top" &&
+      selectedComponentPositions["footer"] !== "custom_footer_top"
+    ) {
       return (
         <div
           id={"custom_gnb"}
@@ -129,7 +136,11 @@ export default function CustomGnbRenderer({
         </div>
       );
     }
-    if (onGnbDrag && !isDraggingCreated) {
+    if (
+      onGnbDrag &&
+      selectedComponentPositions["sidebar"] !== "custom_sidebar_right" &&
+      selectedComponentPositions["footer"] !== "custom_footer_right"
+    ) {
       return (
         <div
           id={"custom_gnb"}

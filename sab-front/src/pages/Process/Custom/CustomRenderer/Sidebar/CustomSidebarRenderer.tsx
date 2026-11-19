@@ -7,7 +7,6 @@ import {
 export default function CustomSidebarRenderer({
   onGnbDrag,
   onSidebarDrag,
-  isDraggingCreated,
   isSelected,
   handleDrop,
   selectedComponentPositions,
@@ -57,8 +56,8 @@ export default function CustomSidebarRenderer({
 
     if (
       onSidebarDrag === true &&
-      !isDraggingCreated &&
-      selectedComponentPositions["gnb"] !== "custom_gnb_left"
+      selectedComponentPositions["gnb"] !== "custom_gnb_left" &&
+      selectedComponentPositions["footer"] !== "custom_footer_left"
     ) {
       return (
         <div
@@ -115,7 +114,11 @@ export default function CustomSidebarRenderer({
       );
     }
 
-    if (onSidebarDrag === true && !isDraggingCreated) {
+    if (
+      onSidebarDrag === true &&
+      selectedComponentPositions["gnb"] !== "custom_gnb_right" &&
+      selectedComponentPositions["footer"] !== "custom_footer_right"
+    ) {
       return (
         <div
           id={"custom_sidebar"}
@@ -160,7 +163,11 @@ export default function CustomSidebarRenderer({
       );
     }
 
-    if (onSidebarDrag === true && !isDraggingCreated) {
+    if (
+      onSidebarDrag === true &&
+      selectedComponentPositions["gnb"] !== "custom_gnb_top" &&
+      selectedComponentPositions["footer"] !== "custom_footer_top"
+    ) {
       return (
         <div
           id={"custom_sidebar"}
@@ -206,7 +213,11 @@ export default function CustomSidebarRenderer({
       );
     }
 
-    if (onSidebarDrag === true && !isDraggingCreated) {
+    if (
+      onSidebarDrag === true &&
+      selectedComponentPositions["gnb"] !== "custom_gnb_bottom" &&
+      selectedComponentPositions["footer"] !== "custom_footer_bottom"
+    ) {
       return (
         <div
           id={"custom_sidebar"}

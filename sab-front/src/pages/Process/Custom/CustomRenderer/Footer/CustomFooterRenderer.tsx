@@ -6,7 +6,6 @@ import {
 
 export default function CustomFooterRenderer({
   onFooterDrag,
-  isDraggingCreated,
   isSelected,
   handleDrop,
   selectedComponentPositions,
@@ -42,7 +41,11 @@ export default function CustomFooterRenderer({
         </div>
       );
     }
-    if (onFooterDrag === true && !isDraggingCreated) {
+    if (
+      onFooterDrag === true &&
+      selectedComponentPositions["gnb"] !== "custom_gnb_left" &&
+      selectedComponentPositions["sidebar"] !== "custom_sidebar_left"
+    ) {
       return (
         <div
           id={"custom_footer"}
@@ -85,7 +88,11 @@ export default function CustomFooterRenderer({
         </div>
       );
     }
-    if (onFooterDrag && !isDraggingCreated) {
+    if (
+      onFooterDrag &&
+      selectedComponentPositions["gnb"] !== "custom_gnb_bottom" &&
+      selectedComponentPositions["sidebar"] !== "custom_sidebar_bottom"
+    ) {
       return (
         <div
           id={"custom_footer"}
@@ -129,7 +136,11 @@ export default function CustomFooterRenderer({
         </div>
       );
     }
-    if (onFooterDrag && !isDraggingCreated) {
+    if (
+      onFooterDrag &&
+      selectedComponentPositions["gnb"] !== "custom_gnb_right" &&
+      selectedComponentPositions["sidebar"] !== "custom_sidebar_right"
+    ) {
       return (
         <div
           id={"custom_footer"}

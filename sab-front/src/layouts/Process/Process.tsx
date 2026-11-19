@@ -1,7 +1,7 @@
 import Custom from "@/pages/Process/Custom/Custom";
 import Button from "@/components/Button/Button";
 import { ReactElement, useState } from "react";
-import { ButtonSize } from "@/types/components/Button.type";
+import { ButtonSize, ButtonType, FontColor } from "@/types/components/Button.type";
 import { customComponentType } from "@/types/components/pages/custom/Custom.type";
 import useCustomStore from "@/store/useCustomStore";
 import styles from "./process.module.scss";
@@ -27,6 +27,11 @@ export default function Process() {
   };
 
   const clearSelection = () => setSelectedTypes([]);
+
+  const handleDetail = () => {
+    if (selectedTypes.length === 0) return;
+    setCurrProcess("DETAIL");
+  };
 
   const handleDeleteSelected = () => {
     if (selectedTypes.length === 0) return;
@@ -78,20 +83,32 @@ export default function Process() {
   return (
     <>
       <section className={styles.stage_section}>
+        {currProcess === "CUSTOM" && selectedTypes.length > 0 && (
+          <div className={styles.selection_label_wrap} data-testid="selection-control">
+            <span className={styles.selection_label}>
+              {selectedTypes.length}개 선택됨
+            </span>
+          </div>
+        )}
         <div className={styles.stage_components}>
           {currProcess === "CUSTOM" && selectedTypes.length > 0 && (
-            <div className={styles.selection_control} data-testid="selection-control">
-              <span className={styles.selection_label}>
-                {selectedTypes.length}개 선택됨
-              </span>
-              <button
-                className={styles.selection_delete}
-                type="button"
+            <div className={styles.selection_buttons}>
+              <Button
+                size={ButtonSize.SMALL}
+                type={ButtonType.GREY}
+                fontColor={FontColor.BLACK}
+                content="상세"
+                onClick={handleDetail}
+                dataTestId="detail-selected"
+              />
+              <Button
+                size={ButtonSize.SMALL}
+                type={ButtonType.RED}
+                fontColor={FontColor.WHITE}
+                content="삭제"
                 onClick={handleDeleteSelected}
-                data-testid="delete-selected"
-              >
-                삭제
-              </button>
+                dataTestId="delete-selected"
+              />
             </div>
           )}
           <Button
